@@ -1,46 +1,54 @@
 require 'logger'
+require 'semlogr/logger_configuration'
+require 'semlogr/log_level'
 require 'semlogr/events/log_event'
 require 'semlogr/templates/parser'
-require 'semlogr/properties/message_properties'
 
 module Semlogr
   class Logger
-    def debug?; @min_level <= ::Logger::DEBUG; end
-    def info?; @min_level <= ::Logger::INFO; end
-    def warn?; @min_level <= ::Logger::WARN; end
-    def error?; @min_level <= ::Logger::ERROR; end
-    def fatal?; @min_level <= ::Logger::FATAL; end
+    def debug?; @level <= LogLevel::DEBUG; end
+    def info?; @level <= LogLevel::INFO; end
+    def warn?; @level <= LogLevel::WARN; end
+    def error?; @level <= LogLevel::ERROR; end
+    def fatal?; @level <= LogLevel::FATAL; end
 
-    def initialize(min_level = ::Logger::DEBUG, sinks = [])
-      @min_level = min_level
-      @sinks = sinks
+    def initialize(config)
+      @level = config.level
+      @sinks = config.sinks
+    end
+
+    def self.create
+      config = LoggerConfiguration.new
+      yield(config)
+
+      Logger.new(config)
     end
 
     def debug(template = nil, error: nil, **properties, &block)
-      log(::Logger::DEBUG, template, error, properties, &block)
+      log(LogLevel::DEBUG, template, error, properties, &block)
     end
 
     def info(template = nil, error: nil, **properties, &block)
-      log(::Logger::INFO, template, error, properties, &block)
+      log(LogLevel::INFO, template, error, properties, &block)
     end
 
     def warn(template = nil, error: nil, **properties, &block)
-      log(::Logger::WARN, template, error, properties, &block)
+      log(LogLevel::WARN, template, error, properties, &block)
     end
 
     def error(template = nil, error: nil, **properties, &block)
-      log(::Logger::ERROR, template, error, properties, &block)
+      log(LogLevel::ERROR, template, error, properties, &block)
     end
 
     def fatal(template = nil, error: nil, **properties, &block)
-      log(::Logger::FATAL, template, error, properties, &block)
+      log(LogLevel::FATAL, template, error, properties, &block)
     end
 
     private
 
     def log(level, template, error, properties, &block)
       return true if @sinks.size == 0
-      return true if level < @min_level
+      return true if level < @level
 
       if template.nil? && block_given?
         template, properties = yield
@@ -49,10 +57,10 @@ module Semlogr
         error = properties[:error]
       end
 
-      message = create_log_event(level, template, error, properties)
+      log_event = create_log_event(level, template, error, properties)
 
       @sinks.each do |sink|
-        sink.log(message)
+        sink.log(log_event)
       end
 
       true
@@ -60,9 +68,8 @@ module Semlogr
 
     def create_log_event(level, template, error, properties)
       template = Templates::Parser.parse(template)
-      message_properties = Properties::MessageProperties.new(properties)
 
-      Messages::LogEvent.new(level, template, error, message_properties)
+      Events::LogEvent.new(level, template, error, properties)
     end
   end
 end

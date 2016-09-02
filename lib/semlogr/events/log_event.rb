@@ -1,5 +1,5 @@
 module Semlogr
-  module Messages
+  module Events
     class LogEvent
       attr_reader :level
       attr_reader :template
@@ -8,15 +8,15 @@ module Semlogr
       attr_reader :timestamp
 
       def initialize(level, template, error, properties)
+        @timestamp = Time.now.utc
         @level = level
         @template = template
         @error = error
         @properties = properties
-        @timestamp = DateTime.now
       end
 
-      def render
-        @template.render(@properties)
+      def render(output)
+        @template.render(output, @properties)
       end
     end
   end

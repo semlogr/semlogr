@@ -1,18 +1,22 @@
+require 'semlogr/formatters/property_value_formatter'
+
 module Semlogr
   module Templates
     class PropertyToken
       attr_accessor :property_name
 
-      def initialize(property_name)
-        @property_name = property_name.to_sym
-        @text = "{#{property_name}}"
+      def initialize(raw_text, property_name)
+        @raw_text = raw_text
+        @property_name = property_name
       end
 
-      def render(properties)
+      def render(output, properties)
         property_value = properties[@property_name]
-
-        return @text unless property_value
-        return property_value.render
+        if property_value
+          Formatters::PropertyValueFormatter.format(output, property_value)
+        else
+          output << @raw_text
+        end
       end
 
       def ==(other)

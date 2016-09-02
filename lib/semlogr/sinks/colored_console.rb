@@ -1,49 +1,76 @@
-require 'colorize'
 require 'semlogr/sinks/console'
 require 'semlogr/properties/output_properties'
 
 module Semlogr
   module Sinks
-    class ColoredConsole < Console
-      LOG_LEVEL_COLORS = [:light_white, :white, :yellow, :light_red, :red]
+    class ColoredConsole
+      DEFAULT_TEMPLATE = "[{timestamp}] {level}: {message}\n{error}"
+      
+      LOG_LEVEL_COLORS = {
+        LogLevel::DEBUG =>:white,
+        LogLevel::INFO => :white,
+        LogLevel::WARN => :yellow,
+        LogLevel::ERROR => :red,
+        LogLevel::FATAL => :red
+      }
 
-      def log(message)
-        rendered_template = ""
-        template_properties = Properties::OutputProperties.new(message)
+      COLOR_CODES = {
+        white: 37,
+        yellow: 33,
+        red: 31,
+        blue: 34
+      }
+
+      def initialize(template: DEFAULT_TEMPLATE)
+        @template = Templates::Parser.parse(template)
+      end
+
+      def log(log_event)
+        output = String.new
+        properties = Properties::OutputProperties.create(log_event)
 
         @template.tokens.each do |token|
           case token
           when Templates::PropertyToken
             if token.property_name == :message
-              rendered_template << render_message(message)
+              render_message(output, log_event)
             elsif token.property_name == :level
-              color = LOG_LEVEL_COLORS[message.level] || :light_white
-
-              rendered_template << token.render(template_properties).colorize(color)
+              color = LOG_LEVEL_COLORS[log_event.level] || :white
+              colorize(output, color) do
+                token.render(output, properties)
+              end
             else
-              rendered_template << token.render(template_properties)
+              next unless properties[token.property_name]
+
+              token.render(output, properties)
             end
           else
-            rendered_template << token.render(template_properties)
+            token.render(output, properties)
           end
         end
 
-        @logdev.write(rendered_template)
+        STDOUT.write(output)
       end
 
-      def render_message(message)
-        rendered_message = ""
+      private
 
-        message.template.tokens.each do |token|
+      def render_message(output, log_event)
+        log_event.template.tokens.each do |token|
           case token
           when Templates::PropertyToken
-            rendered_message << token.render(message.properties).colorize(:light_blue)
+            colorize(output, :blue) do
+              token.render(output, log_event.properties)
+            end
           else
-            rendered_message << token.render(message.properties)
+            token.render(output, log_event.properties)
           end
         end
+      end
 
-        rendered_message
+      def colorize(output, color)
+        output << "\e[#{COLOR_CODES[color]}m"
+        yield
+        output << "\e[0m"
       end
     end
   end

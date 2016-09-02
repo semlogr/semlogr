@@ -1,18 +1,16 @@
+require 'semlogr/formatters/text_formatter'
+
 module Semlogr
   module Sinks
     class File
-      DEFAULT_TEMPLATE = "[{timestamp}] {level}: {message}\n{error}"
-
-      def initialize(file, shift_age: nil, shift_size: nil, template: DEFAULT_TEMPLATE)
+      def initialize(file, shift_age: nil, shift_size: nil, formatter: nil)
         @logdev = ::Logger::LogDevice.new(file, shift_age: shift_age, shift_size: shift_size)
-        @template = Templates::Parser.parse(template)
+        @formatter = formatter || Formatters::TextFormatter.new
       end
 
-      def log(message)
-        properties = Properties::OutputProperties.new(message)
-        rendered = @template.render(properties)
-
-        @logdev.write(rendered)
+      def log(log_event)
+        output = @formatter.format(log_event)
+        @logdev.write(output)
       end
     end
   end

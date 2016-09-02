@@ -1,3 +1,5 @@
+require 'semlogr/templates/text_token'
+
 module Semlogr
   module Templates
     class Template
@@ -7,19 +9,13 @@ module Semlogr
         @tokens = tokens
       end
 
-      def self.empty
-        Template.new([TextToken.empty])
-      end
-
-      def render(properties)
-        rendered = ""
-
+      def render(output, properties)
         @tokens.each do |token|
-          rendered << token.render(properties)
+          token.render(output, properties)
         end
-
-        rendered
       end
+
+      EMPTY = Template.new([TextToken::EMPTY])
     end
   end
 end

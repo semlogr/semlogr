@@ -1,3 +1,4 @@
+require 'lru_redux'
 require 'semlogr/templates/template'
 require 'semlogr/templates/text_token'
 require 'semlogr/templates/property_token'
@@ -5,8 +6,16 @@ require 'semlogr/templates/property_token'
 module Semlogr
   module Templates
     class Parser
+      @template_cache = LruRedux::ThreadSafeCache.new(1000)
+
+      PROPERTY_TOKEN_START = '{'
+      PROPERTY_TOKEN_END = '}'
+
       def self.parse(template)
-        return Template.empty unless template && template.size > 0
+        return Template::EMPTY unless template && template.size > 0
+
+        cached_template = @template_cache[template]
+        return cached_template if cached_template
 
         tokens = []
         pos = 0
@@ -19,7 +28,7 @@ module Semlogr
           tokens.push(property_token) if property_token
         end
 
-        Template.new(tokens)
+        @template_cache[template] = Template.new(tokens)
       end
 
       private
@@ -28,7 +37,7 @@ module Semlogr
         pos = start
 
         while pos < template.size
-          break if template[pos] == '{'
+          break if template[pos] == PROPERTY_TOKEN_START
 
           pos += 1
         end
@@ -42,15 +51,16 @@ module Semlogr
       end
 
       def self.parse_property_token(template, start)
-        return [nil, start] unless template[start] == '{'
+        return [nil, start] unless template[start] == PROPERTY_TOKEN_START
 
         token = nil
         pos = start
 
         while pos < template.size
-          if template[pos] == '}'
-            property_name = template[start+1..pos-1]
-            token = PropertyToken.new(property_name)
+          if template[pos] == PROPERTY_TOKEN_END
+            raw_text = template[start..pos]
+            property_name = raw_text[1..-2]
+            token = PropertyToken.new(raw_text, property_name.to_sym)
 
             return [token, pos+1]
           end

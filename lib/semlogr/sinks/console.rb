@@ -1,18 +1,15 @@
+require 'semlogr/formatters/text_formatter'
+
 module Semlogr
   module Sinks
     class Console
-      DEFAULT_TEMPLATE = "[{timestamp}] {level}: {message}\n{error}"
-
-      def initialize(template: DEFAULT_TEMPLATE)
-        @logdev = ::Logger::LogDevice.new(STDOUT)
-        @template = Templates::Parser.parse(template)
+      def initialize(formatter: nil)
+        @formatter = formatter || Formatters::TextFormatter.new
       end
 
-      def log(message)
-        properties = Properties::OutputProperties.new(message)
-        rendered = @template.render(properties)
-
-        @logdev.write(rendered)
+      def log(log_event)
+        output = @formatter.format(log_event)
+        STDOUT.write(output)
       end
     end
   end

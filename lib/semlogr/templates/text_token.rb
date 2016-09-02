@@ -7,12 +7,8 @@ module Semlogr
         @text = text
       end
 
-      def render(properties)
-        @text
-      end
-
-      def self.empty
-        TextToken.new('')
+      def render(output, properties)
+        output << @text
       end
 
       def ==(other)
@@ -29,6 +25,8 @@ module Semlogr
       def hash
         @text.hash
       end
+
+      EMPTY = TextToken.new('')
     end
   end
 end

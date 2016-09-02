@@ -11,7 +11,7 @@ describe Parser do
 
       it 'should contain the expected tokens' do
         expect(subject.tokens).to match_array([
-          TextToken.empty
+          TextToken::EMPTY
         ])
       end
     end
@@ -21,7 +21,7 @@ describe Parser do
 
       it 'should contain the expected tokens' do
         expect(subject.tokens).to match_array([
-          TextToken.empty
+          TextToken::EMPTY
         ])
       end
     end
@@ -41,7 +41,7 @@ describe Parser do
 
       it 'should contain the expected tokens' do
         expect(subject.tokens).to match_array([
-          PropertyToken.new('foo')
+          PropertyToken.new('{foo}', :foo)
         ])
       end
     end
@@ -52,7 +52,7 @@ describe Parser do
       it 'should contain the expected tokens' do
         expect(subject.tokens).to match_array([
           TextToken.new('hello there '),
-          PropertyToken.new('foo')
+          PropertyToken.new('{foo}', :foo)
         ])
       end
     end
@@ -63,9 +63,9 @@ describe Parser do
       it 'should contain the expected tokens' do
         expect(subject.tokens).to match_array([
           TextToken.new('hello there '),
-          PropertyToken.new('foo'),
+          PropertyToken.new('{foo}', :foo),
           TextToken.new(', something something: '),
-          PropertyToken.new('bah'),
+          PropertyToken.new('{bah}', :bah),
           TextToken.new('. More text')
         ])
       end
