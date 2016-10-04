@@ -26,10 +26,11 @@ Create an instance of the logger configuring one or more sinks.
 require "semlogr"
 require "semlogr/sinks/colored_console"
 
-logger = Semlogr::LogConfigurator.new
-  .min_level(Logger::DEBUG)
-  .write_to(Semlogr::Sinks::ColoredConsole.new)
-  .create_logger
+logger = Semlogr::Logger.create do |c|
+  c.min_level(Semlogr::LogLevel::INFO)
+
+  c.write_to(Semlogr::Sinks::ColoredConsole.new)
+end
 
 logger.info('Customer {customer_id} did something interesting', customer_id: 1234)
 ```
