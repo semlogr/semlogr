@@ -15,8 +15,12 @@ module Semlogr
         @properties = properties
       end
 
+      def get_property(name)
+        @properties[name]
+      end
+
       def set_property(name, value)
-        properties[name] = value
+        @properties[name] = value
       end
 
       def render(output)

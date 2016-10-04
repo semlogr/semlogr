@@ -12,8 +12,9 @@ module Semlogr
     def error?; @level <= LogLevel::ERROR; end
     def fatal?; @level <= LogLevel::FATAL; end
 
-    def initialize(level, enrichers, sinks)
+    def initialize(level, enrichers, filters, sinks)
       @level = level
+      @filters = filters
       @enrichers = enrichers
       @sinks = sinks
     end
@@ -25,6 +26,7 @@ module Semlogr
       Logger.new(
         config.level,
         config.enrichers,
+        config.filters,
         config.sinks
       )
     end
@@ -63,6 +65,10 @@ module Semlogr
       end
 
       log_event = create_log_event(level, template, error, properties)
+
+      @filters.each do |filter|
+        return false if filter.call(log_event)
+      end
 
       @enrichers.each do |enricher|
         enricher.enrich(log_event)

@@ -18,9 +18,14 @@ logger = Semlogr::Logger.create do |c|
   c.enrich_with Semlogr::Enrichers::Thread.new
   c.enrich_with Semlogr::Enrichers::Machine.new
   c.enrich_with Semlogr::Enrichers::Property.new(version: "1.0")
+
+  c.filter_when ->(log_event) {
+    log_event.get_property(:id) == 123
+  }
 end
 
 logger.debug('Test {id}, string {string}')
+logger.debug('Test {id}, string {string}', id: 123, string: "foo")
 logger.debug('Test {id}, string {string}', id: 1234, string: "foo")
 logger.info('Test {id}, string {string}', id: 1234, string: "foo")
 logger.warn('Test {id}, string {string}', id: 1234, string: "foo")
