@@ -6,6 +6,7 @@ require "semlogr/sinks/file"
 require 'semlogr/formatters/json_formatter'
 require 'semlogr/enrichers/thread'
 require 'semlogr/enrichers/machine'
+require 'semlogr/enrichers/property'
 
 logger = Semlogr::Logger.create do |c|
   c.min_level Semlogr::LogLevel::DEBUG
@@ -16,6 +17,7 @@ logger = Semlogr::Logger.create do |c|
 
   c.enrich_with Semlogr::Enrichers::Thread.new
   c.enrich_with Semlogr::Enrichers::Machine.new
+  c.enrich_with Semlogr::Enrichers::Property.new(:version, "1.0")
 end
 
 logger.debug('Test {id}, string {string}')
