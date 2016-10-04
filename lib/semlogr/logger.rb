@@ -14,6 +14,7 @@ module Semlogr
 
     def initialize(config)
       @level = config.level
+      @enrichers = config.enrichers
       @sinks = config.sinks
     end
 
@@ -59,8 +60,12 @@ module Semlogr
 
       log_event = create_log_event(level, template, error, properties)
 
+      @enrichers.each do |enricher|
+        enricher.enrich(log_event)
+      end
+
       @sinks.each do |sink|
-        sink.log(log_event)
+        sink.emit(log_event)
       end
 
       true

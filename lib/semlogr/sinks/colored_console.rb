@@ -5,7 +5,7 @@ module Semlogr
   module Sinks
     class ColoredConsole
       DEFAULT_TEMPLATE = "[{timestamp}] {level}: {message}\n{error}"
-      
+
       LOG_LEVEL_COLORS = {
         LogLevel::DEBUG =>:white,
         LogLevel::INFO => :white,
@@ -25,7 +25,7 @@ module Semlogr
         @template = Templates::Parser.parse(template)
       end
 
-      def log(log_event)
+      def emit(log_event)
         output = String.new
         properties = Properties::OutputProperties.create(log_event)
 

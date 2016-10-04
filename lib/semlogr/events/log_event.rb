@@ -15,6 +15,10 @@ module Semlogr
         @properties = properties
       end
 
+      def set_property(name, value)
+        properties[name] = value
+      end
+
       def render(output)
         @template.render(output, @properties)
       end

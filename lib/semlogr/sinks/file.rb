@@ -8,7 +8,7 @@ module Semlogr
         @formatter = formatter || Formatters::TextFormatter.new
       end
 
-      def log(log_event)
+      def emit(log_event)
         output = @formatter.format(log_event)
         @logdev.write(output)
       end

@@ -4,6 +4,7 @@ require "semlogr/sinks/console"
 require "semlogr/sinks/colored_console"
 require "semlogr/sinks/file"
 require 'semlogr/formatters/json_formatter'
+require 'semlogr/enrichers/thread'
 
 logger = Semlogr::Logger.create do |c|
   c.min_level Semlogr::LogLevel::DEBUG
@@ -11,6 +12,8 @@ logger = Semlogr::Logger.create do |c|
   c.write_to Semlogr::Sinks::Console.new
   c.write_to Semlogr::Sinks::ColoredConsole.new
   c.write_to Semlogr::Sinks::Console.new(formatter: Semlogr::Formatters::JsonFormatter.new)
+
+  c.enrich_with Semlogr::Enrichers::Thread.new
 end
 
 logger.debug('Test {id}, string {string}')
