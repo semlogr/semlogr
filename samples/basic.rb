@@ -17,7 +17,7 @@ logger = Semlogr::Logger.create do |c|
 
   c.enrich_with Semlogr::Enrichers::Thread.new
   c.enrich_with Semlogr::Enrichers::Machine.new
-  c.enrich_with Semlogr::Enrichers::Property.new(:version, "1.0")
+  c.enrich_with Semlogr::Enrichers::Property.new(version: "1.0")
 end
 
 logger.debug('Test {id}, string {string}')
