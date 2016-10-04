@@ -23,6 +23,10 @@ module Semlogr
         @properties[name] = value
       end
 
+      def set_properties(properties)
+        @properties.merge!(properties)
+      end
+
       def render(output)
         @template.render(output, @properties)
       end

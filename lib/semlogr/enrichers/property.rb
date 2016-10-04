@@ -6,9 +6,7 @@ module Semlogr
       end
 
       def enrich(log_event)
-        @properties.each do |name, value|
-          log_event.set_property(name, value)
-        end
+        log_event.set_properties(@properties)
       end
     end
   end
