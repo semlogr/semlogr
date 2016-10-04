@@ -1,12 +1,12 @@
-require 'lru_redux'
 require 'semlogr/templates/template'
 require 'semlogr/templates/text_token'
 require 'semlogr/templates/property_token'
+require 'semlogr/templates/template_cache'
 
 module Semlogr
   module Templates
     class Parser
-      @template_cache = LruRedux::ThreadSafeCache.new(1000)
+      @template_cache = TemplateCache.new(1000)
 
       PROPERTY_TOKEN_START = '{'
       PROPERTY_TOKEN_END = '}'
