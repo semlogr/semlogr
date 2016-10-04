@@ -12,17 +12,21 @@ module Semlogr
     def error?; @level <= LogLevel::ERROR; end
     def fatal?; @level <= LogLevel::FATAL; end
 
-    def initialize(config)
-      @level = config.level
-      @enrichers = config.enrichers
-      @sinks = config.sinks
+    def initialize(level, enrichers, sinks)
+      @level = level
+      @enrichers = enrichers
+      @sinks = sinks
     end
 
     def self.create
       config = LoggerConfiguration.new
       yield(config)
 
-      Logger.new(config)
+      Logger.new(
+        config.level,
+        config.enrichers,
+        config.sinks
+      )
     end
 
     def debug(template = nil, error: nil, **properties, &block)
