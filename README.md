@@ -27,7 +27,7 @@ require "semlogr"
 require "semlogr/sinks/colored_console"
 
 logger = Semlogr::Logger.create do |c|
-  c.min_level(Semlogr::LogLevel::INFO)
+  c.log_at(Semlogr::LogSeverity::INFO)
 
   c.write_to(Semlogr::Sinks::ColoredConsole.new)
 end

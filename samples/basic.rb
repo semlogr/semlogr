@@ -9,7 +9,7 @@ require 'semlogr/enrichers/host'
 require 'semlogr/enrichers/property'
 
 logger = Semlogr::Logger.create do |c|
-  c.min_level Semlogr::LogLevel::DEBUG
+  c.log_at Semlogr::LogSeverity::DEBUG
 
   c.write_to Semlogr::Sinks::Console.new
   c.write_to Semlogr::Sinks::ColoredConsole.new

@@ -5,7 +5,7 @@ require 'semlogr/templates/property_token'
 module Semlogr
   module Formatters
     class TextFormatter
-      DEFAULT_TEMPLATE = "[{timestamp}] {level}: {message}\n{error}"
+      DEFAULT_TEMPLATE = "[{timestamp}] {severity}: {message}\n{error}"
 
       def initialize(template: DEFAULT_TEMPLATE)
         @template = Templates::Parser.parse(template)

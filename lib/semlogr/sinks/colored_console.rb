@@ -4,14 +4,14 @@ require 'semlogr/properties/output_properties'
 module Semlogr
   module Sinks
     class ColoredConsole
-      DEFAULT_TEMPLATE = "[{timestamp}] {level}: {message}\n{error}"
+      DEFAULT_TEMPLATE = "[{timestamp}] {severity}: {message}\n{error}"
 
-      LOG_LEVEL_COLORS = {
-        LogLevel::DEBUG =>:white,
-        LogLevel::INFO => :white,
-        LogLevel::WARN => :yellow,
-        LogLevel::ERROR => :red,
-        LogLevel::FATAL => :red
+      LOG_SEVERITY_COLORS = {
+        LogSeverity::DEBUG =>:white,
+        LogSeverity::INFO => :white,
+        LogSeverity::WARN => :yellow,
+        LogSeverity::ERROR => :red,
+        LogSeverity::FATAL => :red
       }
 
       COLOR_CODES = {
@@ -34,8 +34,8 @@ module Semlogr
           when Templates::PropertyToken
             if token.property_name == :message
               render_message(output, log_event)
-            elsif token.property_name == :level
-              color = LOG_LEVEL_COLORS[log_event.level] || :white
+            elsif token.property_name == :severity
+              color = LOG_SEVERITY_COLORS[log_event.severity] || :white
               colorize(output, color) do
                 token.render(output, properties)
               end

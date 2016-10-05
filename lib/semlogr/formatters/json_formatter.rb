@@ -6,7 +6,7 @@ module Semlogr
       def format(log_event)
         entry = {
           timestamp: log_event.timestamp,
-          level: log_event.level,
+          severity: log_event.severity,
           message: render_message(log_event)
         }
 

@@ -1,19 +1,19 @@
 module Semlogr
   class LoggerConfiguration
-    attr_reader :level
+    attr_reader :min_severity
     attr_reader :enrichers
     attr_reader :filters
     attr_reader :sinks
 
     def initialize
-      @level = ::Logger::DEBUG
+      @min_severity = LogSeverity::DEBUG
       @enrichers = []
       @filters = []
       @sinks = []
     end
 
-    def min_level(level)
-      @level = level
+    def log_at(severity)
+      @min_severity = min_severity
     end
 
     def filter_when(filter)

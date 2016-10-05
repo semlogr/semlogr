@@ -1,15 +1,15 @@
 module Semlogr
   module Events
     class LogEvent
-      attr_reader :level
+      attr_reader :severity
       attr_reader :template
       attr_reader :error
       attr_reader :properties
       attr_reader :timestamp
 
-      def initialize(level, template, error, properties)
+      def initialize(severity, template, error, properties)
         @timestamp = Time.now.utc
-        @level = level
+        @severity = severity
         @template = template
         @error = error
         @properties = properties

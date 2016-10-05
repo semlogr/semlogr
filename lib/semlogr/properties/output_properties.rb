@@ -4,7 +4,7 @@ module Semlogr
       def self.create(log_event)
         properties = log_event.properties.merge({
           timestamp: log_event.timestamp,
-          level: log_event.level
+          severity: log_event.severity
         })
 
         if log_event.error
