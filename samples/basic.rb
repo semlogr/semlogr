@@ -5,7 +5,7 @@ require "semlogr/sinks/colored_console"
 require "semlogr/sinks/file"
 require 'semlogr/formatters/json_formatter'
 require 'semlogr/enrichers/thread'
-require 'semlogr/enrichers/machine'
+require 'semlogr/enrichers/host'
 require 'semlogr/enrichers/property'
 
 logger = Semlogr::Logger.create do |c|
@@ -16,7 +16,7 @@ logger = Semlogr::Logger.create do |c|
   c.write_to Semlogr::Sinks::Console.new(formatter: Semlogr::Formatters::JsonFormatter.new)
 
   c.enrich_with Semlogr::Enrichers::Thread.new
-  c.enrich_with Semlogr::Enrichers::Machine.new
+  c.enrich_with Semlogr::Enrichers::Host.new
   c.enrich_with Semlogr::Enrichers::Property.new(version: "1.0")
 
   c.filter_when ->(log_event) {
