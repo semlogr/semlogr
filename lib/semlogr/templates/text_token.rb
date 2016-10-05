@@ -7,7 +7,7 @@ module Semlogr
         @text = text
       end
 
-      def render(output, properties)
+      def render(output, _properties)
         output << @text
       end
 

@@ -1,8 +1,8 @@
-require "bundler/setup"
-require "semlogr"
-require "semlogr/sinks/console"
-require "semlogr/sinks/colored_console"
-require "semlogr/sinks/file"
+require 'bundler/setup'
+require 'semlogr'
+require 'semlogr/sinks/console'
+require 'semlogr/sinks/colored_console'
+require 'semlogr/sinks/file'
 require 'semlogr/formatters/json_formatter'
 require 'semlogr/enrichers/thread'
 require 'semlogr/enrichers/host'
@@ -17,28 +17,28 @@ logger = Semlogr::Logger.create do |c|
 
   c.enrich_with Semlogr::Enrichers::Thread.new
   c.enrich_with Semlogr::Enrichers::Host.new
-  c.enrich_with Semlogr::Enrichers::Property.new(version: "1.0")
+  c.enrich_with Semlogr::Enrichers::Property.new(version: '1.0')
 
-  c.filter_when ->(log_event) {
+  c.filter_when lambda { |log_event|
     log_event.get_property(:id) == 123
   }
 end
 
 logger.debug('Test {id}, string {string}')
-logger.debug('Test {id}, string {string}', id: 123, string: "foo")
-logger.debug('Test {id}, string {string}', id: 1234, string: "foo")
-logger.info('Test {id}, string {string}', id: 1234, string: "foo")
-logger.warn('Test {id}, string {string}', id: 1234, string: "foo")
-logger.fatal('Test {id}, string {string}', id: 1234, string: "foo")
-logger.fatal('Test array {array}', array: [1,2,3, "foo"])
+logger.debug('Test {id}, string {string}', id: 123, string: 'foo')
+logger.debug('Test {id}, string {string}', id: 1234, string: 'foo')
+logger.info('Test {id}, string {string}', id: 1234, string: 'foo')
+logger.warn('Test {id}, string {string}', id: 1234, string: 'foo')
+logger.fatal('Test {id}, string {string}', id: 1234, string: 'foo')
+logger.fatal('Test array {array}', array: [1, 2, 3, 'foo'])
 
-logger.debug {
+logger.debug do
   'Testing with a block'
-}
+end
 
-logger.debug {
+logger.debug do
   ['Testing with a block, id: {id}', id: 1234]
-}
+end
 
 logger.error('ERROR!!!', error: StandardError.new('test'))
 logger.error('ERROR!!!', error: StandardError.new('test'))
@@ -49,7 +49,7 @@ begin
   end
 
   def foo
-    raise StandardError.new('foo')
+    raise StandardError, 'foo'
   end
 
   bob
@@ -57,7 +57,7 @@ rescue => ex
   logger.warn('Oops, id: {id}', id: 1234, error: ex)
   logger.error('Oops, id: {id}', id: 1234, error: ex)
 
-  logger.error {
+  logger.error do
     ['Testing error with a block, id: {id}', error: ex, id: 1234]
-  }
+  end
 end

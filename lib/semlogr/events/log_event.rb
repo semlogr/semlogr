@@ -19,11 +19,7 @@ module Semlogr
         @properties[name]
       end
 
-      def set_property(name, value)
-        @properties[name] = value
-      end
-
-      def set_properties(properties)
+      def add_property(properties)
         @properties.merge!(properties)
       end
 

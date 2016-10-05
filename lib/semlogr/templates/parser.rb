@@ -8,11 +8,11 @@ module Semlogr
     class Parser
       @template_cache = TemplateCache.new(1000)
 
-      PROPERTY_TOKEN_START = '{'
-      PROPERTY_TOKEN_END = '}'
+      PROPERTY_TOKEN_START = '{'.freeze
+      PROPERTY_TOKEN_END = '}'.freeze
 
       def self.parse(template)
-        return Template::EMPTY unless template && template.size > 0
+        return Template::EMPTY unless template && !template.empty?
 
         cached_template = @template_cache[template]
         return cached_template if cached_template
@@ -31,7 +31,6 @@ module Semlogr
         @template_cache[template] = Template.new(tokens)
       end
 
-      private
       def self.parse_text_token(template, start)
         token = nil
         pos = start
@@ -43,7 +42,7 @@ module Semlogr
         end
 
         if pos > start
-          text = template[start..pos-1]
+          text = template[start..pos - 1]
           token = TextToken.new(text)
         end
 
@@ -62,14 +61,14 @@ module Semlogr
             property_name = raw_text[1..-2]
             token = PropertyToken.new(raw_text, property_name.to_sym)
 
-            return [token, pos+1]
+            return [token, pos + 1]
           end
 
           pos += 1
         end
 
         if pos > start
-          text = template[start..pos-1]
+          text = template[start..pos - 1]
           token = TextToken.new(text)
         end
 

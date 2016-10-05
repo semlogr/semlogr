@@ -10,25 +10,32 @@ module Semlogr
           message: render_message(log_event)
         }
 
-        if log_event.error
-          entry[:error] = {
-            type: log_event.error.class,
-            message: log_event.error.message,
-            backtrace: log_event.error.backtrace
-          }
-        end
-
-        if log_event.properties.any?
-          entry[:properties] = log_event.properties
-        end
+        add_error(entry, log_event)
+        add_properties(entry, log_event)
 
         "#{entry.to_json}\n"
       end
 
       private
 
+      def add_error(entry, log_event)
+        return unless log_event.error
+
+        entry[:error] = {
+          type: log_event.error.class,
+          message: log_event.error.message,
+          backtrace: log_event.error.backtrace
+        }
+      end
+
+      def add_properties(entry, log_event)
+        return unless log_event.properties.any?
+
+        entry[:properties] = log_event.properties
+      end
+
       def render_message(log_event)
-        output = String.new
+        output = ''
 
         log_event.render(output)
 

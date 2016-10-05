@@ -1,7 +1,7 @@
 module Semlogr
   module Formatters
     class PropertyValueFormatter
-      QUOTE = "\""
+      QUOTE = '"'.freeze
 
       def self.format(output, property_value)
         return unless property_value
@@ -15,10 +15,10 @@ module Semlogr
           output << "#{property_value.class}: #{property_value.message}"
 
           if property_value.backtrace
-            output << "\n\s\s#{property_value.backtrace.join("\n\s\s")}\n"
-          else
-            output << "\n"
+            output << "\n\s\s#{property_value.backtrace.join("\n\s\s")}"
           end
+
+          output << "\n"
         else
           output << property_value.to_s
         end

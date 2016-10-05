@@ -6,12 +6,6 @@ require 'semlogr/templates/parser'
 
 module Semlogr
   class Logger
-    def debug?; @min_severity <= LogSeverity::DEBUG; end
-    def info?; @min_severity <= LogSeverity::INFO; end
-    def warn?; @min_severity <= LogSeverity::WARN; end
-    def error?; @min_severity <= LogSeverity::ERROR; end
-    def fatal?; @min_severity <= LogSeverity::FATAL; end
-
     def initialize(min_severity, enrichers, filters, sinks)
       @min_severity = min_severity
       @filters = filters
@@ -29,6 +23,26 @@ module Semlogr
         config.filters,
         config.sinks
       )
+    end
+
+    def debug?
+      @min_severity <= LogSeverity::DEBUG
+    end
+
+    def info?
+      @min_severity <= LogSeverity::INFO
+    end
+
+    def warn?
+      @min_severity <= LogSeverity::WARN
+    end
+
+    def error?
+      @min_severity <= LogSeverity::ERROR
+    end
+
+    def fatal?
+      @min_severity <= LogSeverity::FATAL
     end
 
     def debug(template = nil, error: nil, **properties, &block)
@@ -54,10 +68,10 @@ module Semlogr
     private
 
     def log(severity, template, error, properties, &block)
-      return true if @sinks.size == 0
+      return true if @sinks.size.zero?
       return true if severity < @min_severity
 
-      if template.nil? && block_given?
+      if template.nil? && block
         template, properties = yield
 
         properties ||= {}

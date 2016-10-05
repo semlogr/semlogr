@@ -9,8 +9,8 @@ module Semlogr
       @display_string = display_string
     end
 
-    def <=>(severity)
-      @value <=> severity.value
+    def <=>(other)
+      @value <=> other.value
     end
 
     def to_s

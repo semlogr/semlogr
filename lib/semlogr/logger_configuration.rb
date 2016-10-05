@@ -13,7 +13,7 @@ module Semlogr
     end
 
     def log_at(severity)
-      @min_severity = min_severity
+      @min_severity = severity
     end
 
     def filter_when(filter)
