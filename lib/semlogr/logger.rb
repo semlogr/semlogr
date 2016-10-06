@@ -17,12 +17,7 @@ module Semlogr
       config = LoggerConfiguration.new
       yield(config)
 
-      Logger.new(
-        config.min_severity,
-        config.enrichers,
-        config.filters,
-        config.sinks
-      )
+      config.create_logger
     end
 
     def debug?

@@ -27,5 +27,14 @@ module Semlogr
     def write_to(sink)
       @sinks << sink
     end
+
+    def create_logger
+      Logger.new(
+        @min_severity,
+        @enrichers,
+        @filters,
+        @sinks
+      )
+    end
   end
 end
