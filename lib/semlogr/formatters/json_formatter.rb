@@ -5,7 +5,7 @@ module Semlogr
     class JsonFormatter
       def format(log_event)
         entry = {
-          timestamp: log_event.timestamp,
+          timestamp: log_event.timestamp.iso8601(3),
           severity: log_event.severity,
           message: render_message(log_event)
         }
