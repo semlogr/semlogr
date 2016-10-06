@@ -4,34 +4,37 @@ module Semlogr
   module Formatters
     class JsonFormatter
       def format(log_event)
-        entry = {
+        event = {
           timestamp: log_event.timestamp.iso8601(3),
           severity: log_event.severity,
           message: log_event.to_s
         }
 
-        add_error(entry, log_event)
-        add_properties(entry, log_event)
+        add_error(event, log_event.error)
+        add_properties(event, log_event.properties)
 
-        "#{entry.to_json}\n"
+        yield(event) if block_given?
+
+        "#{event.to_json}\n"
       end
 
       private
 
-      def add_error(entry, log_event)
-        return unless log_event.error
+      def add_error(event, error)
+        return unless error
 
-        entry[:error] = {
-          type: log_event.error.class,
-          message: log_event.error.message,
-          backtrace: log_event.error.backtrace
+        backtrace = error.backtrace || []
+        event[:error] = {
+          type: error.class,
+          message: error.message,
+          backtrace: backtrace.join("\n")
         }
       end
 
-      def add_properties(entry, log_event)
-        return unless log_event.properties.any?
+      def add_properties(event, properties)
+        return unless properties.any?
 
-        entry[:properties] = log_event.properties
+        event[:properties] = properties
       end
     end
   end
