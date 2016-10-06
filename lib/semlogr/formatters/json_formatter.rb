@@ -7,7 +7,7 @@ module Semlogr
         entry = {
           timestamp: log_event.timestamp.iso8601(3),
           severity: log_event.severity,
-          message: render_message(log_event)
+          message: log_event.to_s
         }
 
         add_error(entry, log_event)
@@ -32,14 +32,6 @@ module Semlogr
         return unless log_event.properties.any?
 
         entry[:properties] = log_event.properties
-      end
-
-      def render_message(log_event)
-        output = ''
-
-        log_event.render(output)
-
-        output
       end
     end
   end

@@ -26,6 +26,14 @@ module Semlogr
       def render(output)
         @template.render(output, @properties)
       end
+
+      def to_s
+        output = ''
+
+        render(output)
+
+        output
+      end
     end
   end
 end
