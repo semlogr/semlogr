@@ -8,10 +8,6 @@ module Semlogr
       end
     end
 
-    def self.logger
-      @logger
-    end
-
     def self.debug(template = nil, **properties, &block)
       ensure_logger
 
@@ -43,8 +39,12 @@ module Semlogr
     end
 
     class << self
+      attr_reader :logger
+
       def ensure_logger
-        raise StandardError, 'You need to initialize the logger instance by calling Semlogr::Log.configure first!' unless logger
+        return if logger
+
+        raise StandardError, 'You need to initialize the logger instance by calling Semlogr::Log.configure first!'
       end
     end
   end
