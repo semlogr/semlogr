@@ -3,6 +3,7 @@ require 'semlogr/logger_configuration'
 require 'semlogr/log_severity'
 require 'semlogr/events/log_event'
 require 'semlogr/templates/parser'
+require 'semlogr/enrichers/property'
 
 module Semlogr
   class Logger
@@ -58,6 +59,15 @@ module Semlogr
 
     def fatal(template = nil, error: nil, **properties, &block)
       log(LogSeverity::FATAL, template, error, properties, &block)
+    end
+
+    def with_context(**properties)
+      Logger.new(
+        @min_severity,
+        @enrichers + [Enrichers::Property.new(properties)],
+        @filters,
+        @sinks
+      )
     end
 
     private
