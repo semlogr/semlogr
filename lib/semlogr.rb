@@ -1,8 +1,6 @@
 require 'semlogr/logger'
 
 module Semlogr
-  VERSION = '0.1.0'.freeze
-
   class << self
     @logger = nil
 
