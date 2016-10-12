@@ -20,7 +20,7 @@ module Semlogr
           when Templates::PropertyToken
             if token.property_name == :message
               log_event.render(output)
-            else
+            elsif output_properties[token.property_name]
               token.render(output, output_properties)
             end
           else
