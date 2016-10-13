@@ -51,12 +51,14 @@ module Semlogr
           colorize(output, color) do
             token.render(output, output_properties)
           end
-        elsif token.property_name == :error
-          colorize(output, :red) do
+        elsif output_properties[token.property_name]
+          if token.property_name == :error
+            colorize(output, :red) do
+              token.render(output, output_properties)
+            end
+          else
             token.render(output, output_properties)
           end
-        elsif output_properties[token.property_name]
-          token.render(output, output_properties)
         end
       end
 
