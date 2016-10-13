@@ -44,20 +44,23 @@ module Semlogr
       private
 
       def render_property_token(output, token, log_event, output_properties)
-        if token.property_name == :message
+        case token.property_name
+        when :message
           render_message(output, log_event)
-        elsif token.property_name == :severity
+        when :severity
           color = LOG_SEVERITY_COLORS[log_event.severity] || :white
           colorize(output, color) do
             token.render(output, output_properties)
           end
-        elsif token.property_name == :error
-          next unless output_properties[:error]
+        when :error
+          return unless output_properties[:error]
 
           colorize(output, :red) do
             token.render(output, output_properties)
           end
-        elsif output_properties[token.property_name]
+        else
+          return unless output_properties[token.property_name]
+
           token.render(output, output_properties)
         end
       end
