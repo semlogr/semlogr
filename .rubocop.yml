@@ -4,6 +4,9 @@ Metrics/AbcSize:
 Metrics/CyclomaticComplexity:
   Max: 8
 
+Metrics/PerceivedComplexity:
+  Max: 8
+
 Metrics/LineLength:
   Max: 120
 
