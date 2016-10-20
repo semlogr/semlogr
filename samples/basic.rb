@@ -25,6 +25,7 @@ logger = Semlogr::Logger.create do |c|
 end
 
 logger.debug('Test {id}, string {string}')
+logger.debug('Test {id}, string {string}', id: nil, string: nil)
 logger.debug('Test {id}, string {string}', id: 123, string: 'foo')
 logger.debug('Test {id}, string {string}', id: 1234, string: 'foo')
 logger.info('Test {id}, string {string}', id: 1234, string: 'foo')

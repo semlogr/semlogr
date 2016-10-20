@@ -11,8 +11,9 @@ module Semlogr
       end
 
       def render(output, properties)
-        property_value = properties[@property_name]
-        if property_value
+        if properties.key?(@property_name)
+          property_value = properties[@property_name]
+
           Formatters::PropertyValueFormatter.format(output, property_value)
         else
           output << @raw_text

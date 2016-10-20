@@ -4,9 +4,9 @@ module Semlogr
       QUOTE = '"'.freeze
 
       def self.format(output, property_value)
-        return unless property_value
-
         case property_value
+        when nil
+          output << '(nil)'.freeze
         when String
           output << QUOTE
           output << property_value

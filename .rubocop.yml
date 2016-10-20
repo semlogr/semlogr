@@ -1,14 +1,17 @@
-Metrics/AbcSize:
-  Max: 24
-
-Metrics/CyclomaticComplexity:
-  Max: 8
-
-Metrics/LineLength:
-  Max: 120
-
-Metrics/MethodLength:
-  Max: 20
+AllCops:
+  TargetRubyVersion: 2.2
 
 Documentation:
   Enabled: false
+
+Metrics/AbcSize:
+  Max: 24
+Metrics/CyclomaticComplexity:
+  Max: 8
+Metrics/LineLength:
+  Max: 120
+Metrics/MethodLength:
+  Max: 20
+
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
