@@ -77,9 +77,11 @@ module Semlogr
       return true if severity < @min_severity
 
       if block
+        progname = template
         template, properties = yield
 
         properties ||= {}
+        properties[:progname] = progname if progname
         error = properties.delete(:error)
       end
 
