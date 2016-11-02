@@ -76,11 +76,11 @@ module Semlogr
       return true if @sinks.size.zero?
       return true if severity < @min_severity
 
-      if template.nil? && block
+      if block
         template, properties = yield
 
         properties ||= {}
-        error = properties[:error]
+        error = properties.delete(:error)
       end
 
       log_event = create_log_event(severity, template, error, properties)
