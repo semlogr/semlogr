@@ -1,5 +1,6 @@
 require 'semlogr/version'
 require 'semlogr/logger'
+require 'semlogr/null_logger'
 
 module Semlogr
   @logger = nil
@@ -15,11 +16,7 @@ module Semlogr
   end
 
   def self.logger
-    unless @logger
-      raise StandardError, 'You need to initialize the logger instance by calling Semlogr::Log.configure first!'
-    end
-
-    @logger
+    @logger ||= NullLogger.new
   end
 
   def self.debug(template = nil, **properties, &block)
