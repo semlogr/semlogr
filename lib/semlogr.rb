@@ -4,10 +4,14 @@ require 'semlogr/logger'
 module Semlogr
   @logger = nil
 
-  def self.configure
-    @logger = Logger.create do |config|
+  def self.create_logger
+    Logger.create do |config|
       yield(config)
     end
+  end
+
+  def self.logger=(logger)
+    @logger = logger
   end
 
   def self.logger
