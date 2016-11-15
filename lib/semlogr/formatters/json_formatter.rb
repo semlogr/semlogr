@@ -27,7 +27,7 @@ module Semlogr
         event[:error] = {
           type: error.class,
           message: error.message,
-          backtrace: backtrace.join("\n")
+          backtrace: backtrace
         }
       end
 
