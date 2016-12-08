@@ -15,3 +15,6 @@ Metrics/MethodLength:
 
 Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
+
+Style/EmptyMethod:
+  EnforcedStyle: expanded
