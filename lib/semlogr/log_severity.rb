@@ -13,6 +13,10 @@ module Semlogr
       @value <=> other.value
     end
 
+    def as_json
+      to_s
+    end
+
     def to_s
       @display_string
     end

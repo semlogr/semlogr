@@ -15,7 +15,7 @@ module Semlogr
 
         yield(event) if block_given?
 
-        event_json = Oj.dump(event, mode: :compat, use_to_json: true)
+        event_json = Oj.dump(event, mode: :compat, use_as_json: true, use_to_json: true)
         "#{event_json}\n"
       end
 
