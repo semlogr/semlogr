@@ -6,6 +6,8 @@ Documentation:
 
 Metrics/AbcSize:
   Max: 24
+Metrics/BlockLength:
+  ExcludedMethods: ['describe']
 Metrics/CyclomaticComplexity:
   Max: 8
 Metrics/LineLength:
