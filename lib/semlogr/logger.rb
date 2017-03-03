@@ -86,18 +86,10 @@ module Semlogr
       end
 
       log_event = create_log_event(severity, template, error, properties)
+      return false if filter?(log_event)
 
-      @filters.each do |filter|
-        return false if filter.call(log_event)
-      end
-
-      @enrichers.each do |enricher|
-        enricher.enrich(log_event)
-      end
-
-      @sinks.each do |sink|
-        sink.emit(log_event)
-      end
+      enrich(log_event)
+      emit(log_event)
 
       true
     end
@@ -106,6 +98,26 @@ module Semlogr
       template = Templates::Parser.parse(template)
 
       Events::LogEvent.new(severity, template, error, properties)
+    end
+
+    def filter?(log_event)
+      @filters.each do |filter|
+        return true if filter.call(log_event)
+      end
+
+      false
+    end
+
+    def enrich(log_event)
+      @enrichers.each do |enricher|
+        enricher.enrich(log_event)
+      end
+    end
+
+    def emit(log_event)
+      @sinks.each do |sink|
+        sink.emit(log_event)
+      end
     end
   end
 end
