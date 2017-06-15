@@ -48,14 +48,13 @@ module Semlogr
         when :message
           render_message(output, log_event)
         when :severity
-          color = LOG_SEVERITY_COLORS[log_event.severity] || :white
-          colorize(output, color) do
+          colorize(output, LOG_SEVERITY_COLORS[log_event.severity]) do
             token.render(output, output_properties)
           end
         when :error
           return unless output_properties[:error]
 
-          colorize(output, :red) do
+          colorize(output, LOG_SEVERITY_COLORS[log_event.severity]) do
             token.render(output, output_properties)
           end
         else
@@ -79,6 +78,8 @@ module Semlogr
       end
 
       def colorize(output, color)
+        color = :white unless color
+
         output << "\e[#{COLOR_CODES[color]}m"
         yield
         output << "\e[0m"
