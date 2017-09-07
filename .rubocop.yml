@@ -3,19 +3,34 @@ AllCops:
 
 Documentation:
   Enabled: false
+OrderedGems:
+  Enabled: false
 
-Metrics/AbcSize:
-  Max: 24
-Metrics/BlockLength:
-  ExcludedMethods: ['describe']
-Metrics/CyclomaticComplexity:
-  Max: 8
-Metrics/LineLength:
-  Max: 120
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented
+
+# Do not use Rubocop to enforce complexity rules, these will me
+# managed via the PR prorcess to not let in clearly complex code.
+Metrics/ClassLength:
+  Enabled: false
+Metrics/ModuleLength:
+  Enabled: false
 Metrics/MethodLength:
-  Max: 20
+  Enabled: false
+Metrics/BlockNesting:
+  Enabled: false
+Metrics/AbcSize:
+  Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false
+Metrics/ParameterLists:
+  Enabled: false
+Metrics/BlockLength:
+  Enabled: false
+Metrics/PerceivedComplexity:
+  Enabled: false
+Metrics/LineLength:
+  Enabled: false
 
 Style/EmptyMethod:
   EnforcedStyle: expanded
-Style/MultilineMethodCallIndentation:
-  EnforcedStyle: indented

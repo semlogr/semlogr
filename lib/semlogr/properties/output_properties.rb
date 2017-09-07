@@ -8,7 +8,6 @@ module Semlogr
         )
 
         properties[:error] = log_event.error if log_event.error
-
         properties
       end
     end

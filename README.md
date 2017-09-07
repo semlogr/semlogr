@@ -2,7 +2,7 @@
 
 # Semlogr
 
-Semlogr is a semantic logger for Ruby inspired by the amazing semantic logger for .NET [Serilog](http://serilog.net/).
+Semlogr is a semantic logger for Ruby inspired and primarily ported from the awesome semantic logger for .NET [Serilog](http://serilog.net/).
 
 ## Installation
 
@@ -20,30 +20,25 @@ then:
 
 ## Getting Started
 
-Create an instance of the logger configuring one or more sinks.
+Create an instance of the logger configuring one or more sinks. 
 
 ```ruby
 require "semlogr"
-require "semlogr/sinks/colored_console"
 
-logger = Semlogr::Logger.create do |c|
-  c.log_at(Semlogr::LogSeverity::INFO)
+Semlogr.logger = Semlogr.create_logger do |c|
+  c.log_at :info
 
-  c.write_to(Semlogr::Sinks::ColoredConsole.new)
+  c.write_to :colored_console
 end
 
-logger.info('Customer {customer_id} did something interesting', customer_id: 1234)
+Semlogr.info('Customer {customer_id} did something interesting', customer_id: 1234)
 ```
+
+More configuration examples can be found inside the samples directory.
 
 ## Development
 
 After cloning the repository run `bundle install` to get up and running, to run the specs just run `rake spec`. You can also experiment in an interactive pry console using `bin/console`.
-
-## Changes
-
-### 0.1.0
-
-  - Initial commit, long long way to go :)!
 
 ## Contributing
 

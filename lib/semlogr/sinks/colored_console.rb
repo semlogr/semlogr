@@ -85,5 +85,7 @@ module Semlogr
         output << "\e[0m"
       end
     end
+
+    ComponentRegistry.register(:sink, colored_console: ColoredConsole)
   end
 end

@@ -1,3 +1,5 @@
+require 'semlogr/component_registry'
+
 module Semlogr
   module Enrichers
     class Property
@@ -6,8 +8,10 @@ module Semlogr
       end
 
       def enrich(log_event)
-        log_event.add_property(@properties)
+        log_event.add_property_if_absent(@properties)
       end
     end
+
+    ComponentRegistry.register(:enricher, property: Property)
   end
 end

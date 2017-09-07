@@ -1,17 +1,15 @@
-require 'logger'
 require 'semlogr/logger_configuration'
 require 'semlogr/log_severity'
 require 'semlogr/events/log_event'
-require 'semlogr/templates/parser'
 require 'semlogr/enrichers/property'
+require 'semlogr/enrichers/aggregate'
 
 module Semlogr
   class Logger
-    def initialize(min_severity, enrichers, filters, sinks)
+    def initialize(min_severity, enricher, sink)
       @min_severity = min_severity
-      @filters = filters
-      @enrichers = enrichers
-      @sinks = sinks
+      @enricher = enricher
+      @sink = sink
     end
 
     def self.create
@@ -41,39 +39,40 @@ module Semlogr
       @min_severity <= LogSeverity::FATAL
     end
 
-    def debug(template = nil, error: nil, **properties, &block)
-      log(LogSeverity::DEBUG, template, error, properties, &block)
+    def debug(template = nil, **properties, &block)
+      log(LogSeverity::DEBUG, template, properties, &block)
     end
 
-    def info(template = nil, error: nil, **properties, &block)
-      log(LogSeverity::INFO, template, error, properties, &block)
+    def info(template = nil, **properties, &block)
+      log(LogSeverity::INFO, template, properties, &block)
     end
 
-    def warn(template = nil, error: nil, **properties, &block)
-      log(LogSeverity::WARN, template, error, properties, &block)
+    def warn(template = nil, **properties, &block)
+      log(LogSeverity::WARN, template, properties, &block)
     end
 
-    def error(template = nil, error: nil, **properties, &block)
-      log(LogSeverity::ERROR, template, error, properties, &block)
+    def error(template = nil, **properties, &block)
+      log(LogSeverity::ERROR, template, properties, &block)
     end
 
-    def fatal(template = nil, error: nil, **properties, &block)
-      log(LogSeverity::FATAL, template, error, properties, &block)
+    def fatal(template = nil, **properties, &block)
+      log(LogSeverity::FATAL, template, properties, &block)
     end
 
     def with_context(**properties)
+      property_enricher = Enrichers::Property.new(properties)
+      enricher = Enrichers::Aggregate.new([@enricher, property_enricher])
+
       Logger.new(
         @min_severity,
-        @enrichers + [Enrichers::Property.new(properties)],
-        @filters,
-        @sinks
+        enricher,
+        @sink
       )
     end
 
     private
 
-    def log(severity, template, error, properties, &block)
-      return true if @sinks.size.zero?
+    def log(severity, template, properties, &block)
       return true if severity < @min_severity
 
       if block
@@ -82,42 +81,13 @@ module Semlogr
 
         properties ||= {}
         properties[:progname] = progname if progname
-        error = properties.delete(:error)
       end
 
-      log_event = create_log_event(severity, template, error, properties)
-      return false if filter?(log_event)
-
-      enrich(log_event)
-      emit(log_event)
+      log_event = Events::LogEvent.create(severity, template, properties)
+      @enricher.enrich(log_event)
+      @sink.emit(log_event)
 
       true
-    end
-
-    def create_log_event(severity, template, error, properties)
-      template = Templates::Parser.parse(template)
-
-      Events::LogEvent.new(severity, template, error, properties)
-    end
-
-    def filter?(log_event)
-      @filters.each do |filter|
-        return true if filter.call(log_event)
-      end
-
-      false
-    end
-
-    def enrich(log_event)
-      @enrichers.each do |enricher|
-        enricher.enrich(log_event)
-      end
-    end
-
-    def emit(log_event)
-      @sinks.each do |sink|
-        sink.emit(log_event)
-      end
     end
   end
 end

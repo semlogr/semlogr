@@ -1,3 +1,5 @@
+require 'semlogr/templates/parser'
+
 module Semlogr
   module Events
     class LogEvent
@@ -7,12 +9,18 @@ module Semlogr
       attr_reader :properties
       attr_reader :timestamp
 
-      def initialize(severity, template, error, properties)
+      def initialize(severity, template, error: nil, **properties)
         @timestamp = Time.now.utc
         @severity = severity
         @template = template
         @error = error
         @properties = properties
+      end
+
+      def self.create(severity, template, properties)
+        template = Templates::Parser.parse(template)
+
+        LogEvent.new(severity, template, properties)
       end
 
       def get_property(name)
@@ -21,6 +29,10 @@ module Semlogr
 
       def add_property(properties)
         @properties.merge!(properties)
+      end
+
+      def add_property_if_absent(properties)
+        @properties.merge!(properties) { |_, old, _| old }
       end
 
       def render(output)

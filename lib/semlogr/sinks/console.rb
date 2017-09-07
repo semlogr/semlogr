@@ -12,5 +12,7 @@ module Semlogr
         STDOUT.write(output)
       end
     end
+
+    ComponentRegistry.register(:sink, console: Console)
   end
 end

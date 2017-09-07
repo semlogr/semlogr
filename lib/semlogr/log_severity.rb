@@ -9,6 +9,23 @@ module Semlogr
       @display_string = display_string
     end
 
+    def self.create(severity)
+      case severity
+      when :debug
+        LogSeverity::DEBUG
+      when :info
+        LogSeverity::INFO
+      when :warn
+        LogSeverity::WARN
+      when :error
+        LogSeverity::ERROR
+      when :fatal
+        LogSeverity::FATAL
+      else
+        LogSeverity::DEBUG
+      end
+    end
+
     def <=>(other)
       @value <=> other.value
     end
@@ -21,10 +38,10 @@ module Semlogr
       @display_string
     end
 
-    DEBUG = LogSeverity.new(::Logger::DEBUG, 'DEBUG')
-    INFO = LogSeverity.new(::Logger::INFO, 'INFO')
-    WARN = LogSeverity.new(::Logger::WARN, 'WARN')
-    ERROR = LogSeverity.new(::Logger::ERROR, 'ERROR')
-    FATAL = LogSeverity.new(::Logger::FATAL, 'FATAL')
+    DEBUG = LogSeverity.new(0, 'DEBUG')
+    INFO = LogSeverity.new(1, 'INFO')
+    WARN = LogSeverity.new(2, 'WARN')
+    ERROR = LogSeverity.new(3, 'ERROR')
+    FATAL = LogSeverity.new(4, 'FATAL')
   end
 end

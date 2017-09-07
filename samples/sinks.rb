@@ -2,7 +2,8 @@ require 'bundler/setup'
 require 'semlogr'
 
 Semlogr.logger = Semlogr::Logger.create do |c|
-  c.write_to :console
+  c.write_to :console, formatter: Semlogr::Formatters::JsonFormatter.new
+  c.write_to :colored_console
 end
 
 Semlogr.info('Customer {id} checked out', id: 123)
