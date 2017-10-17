@@ -1,5 +1,13 @@
 # Changelog
 
+### 0.2.0
+
+* Introduce simpler logger configuration
+* Add ambient log property context
+* Add samples
+* Specs specs specs!
+* Fix coloring of exceptions with colored console sink
+
 ### 0.1.3
 
 * Move to Oj for json serialization of log events
