@@ -15,8 +15,7 @@ module Semlogr
 
       def self.get_property(key)
         LogContext.current
-          .reverse_each
-          .each do |properties|
+          .reverse_each do |properties|
             return properties[key] if properties.key?(key)
           end
 
