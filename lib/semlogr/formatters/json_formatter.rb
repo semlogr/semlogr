@@ -3,19 +3,29 @@ require 'oj'
 module Semlogr
   module Formatters
     class JsonFormatter
+      def initialize(opts = {})
+        default_opts = {
+          mode: :custom,
+          time_format: :ruby,
+          use_to_json: true
+        }
+
+        @opts = default_opts.merge(opts)
+      end
+
       def format(log_event)
         event = {
           timestamp: log_event.timestamp.iso8601(3),
-          severity: log_event.severity,
+          severity: log_event.severity.to_s,
+          message_template: log_event.template.text,
           message: log_event.to_s
         }
 
         add_error(event, log_event.error)
         add_properties(event, log_event.properties)
 
-        yield(event) if block_given?
-
-        event_json = Oj.dump(event, mode: :compat, use_as_json: true, use_to_json: true)
+        event = yield(event) if block_given?
+        event_json = Oj.dump(event, @opts)
         "#{event_json}\n"
       end
 

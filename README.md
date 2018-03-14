@@ -38,7 +38,7 @@ More configuration examples can be found inside the samples directory.
 
 ## Development
 
-After cloning the repository run `bundle install` to get up and running, to run the specs just run `rake spec`. You can also experiment in an interactive pry console using `bin/console`.
+After cloning the repository run `bundle install` to get up and running, to run the specs just run `bundle exec rake`. You can also experiment in an interactive pry console using `bin/console`.
 
 ## Contributing
 

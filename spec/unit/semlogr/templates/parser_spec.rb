@@ -9,6 +9,10 @@ module Semlogr
         context 'when template is empty' do
           let(:template) { '' }
 
+          it 'sets text to the template' do
+            expect(subject.text).to eq(template)
+          end
+
           it 'contains an empty token' do
             expect(subject.tokens).to match_array(
               [
@@ -20,6 +24,10 @@ module Semlogr
 
         context 'when template is nil' do
           let(:template) { nil }
+
+          it 'sets text to the template' do
+            expect(subject.text).to eq('')
+          end
 
           it 'contains an empty token' do
             expect(subject.tokens).to match_array(
@@ -33,6 +41,10 @@ module Semlogr
         context 'when template has only text' do
           let(:template) { 'this is some text' }
 
+          it 'sets text to the template' do
+            expect(subject.text).to eq(template)
+          end
+
           it 'contains the text token' do
             expect(subject.tokens).to match_array(
               [
@@ -44,6 +56,10 @@ module Semlogr
 
         context 'when template has a single property' do
           let(:template) { '{foo}' }
+
+          it 'sets text to the template' do
+            expect(subject.text).to eq(template)
+          end
 
           it 'contains the property token' do
             expect(subject.tokens).to match_array(
@@ -57,6 +73,10 @@ module Semlogr
         context 'when template has both text and property' do
           let(:template) { 'hello there {foo}' }
 
+          it 'sets text to the template' do
+            expect(subject.text).to eq(template)
+          end
+
           it 'contains the text and property token' do
             expect(subject.tokens).to match_array(
               [
@@ -69,6 +89,10 @@ module Semlogr
 
         context 'when template has multiple properties surrounded by text' do
           let(:template) { 'hello there {foo}, something something: {bah}. More text' }
+
+          it 'sets text to the template' do
+            expect(subject.text).to eq(template)
+          end
 
           it 'contains the text and property tokens' do
             expect(subject.tokens).to match_array(
@@ -85,6 +109,10 @@ module Semlogr
 
         context 'when template has an unclosed property' do
           let(:template) { 'hello there {foo' }
+
+          it 'sets text to the template' do
+            expect(subject.text).to eq(template)
+          end
 
           it 'contains the text tokens' do
             expect(subject.tokens).to match_array(

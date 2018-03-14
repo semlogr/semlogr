@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.2.1
+
+* Add raw template text to template
+* Add way to fully customize the object that is serialized by the JsonFormatter
+* Upgrade to latest versions of dependencies
+* Allow Oj configuration options to be passed to the JsonFormatter
+
 ### 0.2.0
 
 * Introduce simpler logger configuration

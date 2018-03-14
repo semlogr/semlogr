@@ -1,5 +1,4 @@
 require 'semlogr/context/log_context'
-require 'thread'
 
 module Semlogr
   module Context

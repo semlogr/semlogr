@@ -78,7 +78,7 @@ module Semlogr
       end
 
       def colorize(output, color)
-        color = :white unless color
+        color ||= :white
 
         output << "\e[#{COLOR_CODES[color]}m"
         yield

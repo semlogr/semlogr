@@ -3,9 +3,10 @@ require 'semlogr/templates/text_token'
 module Semlogr
   module Templates
     class Template
-      attr_accessor :tokens
+      attr_accessor :text, :tokens
 
-      def initialize(tokens)
+      def initialize(text, tokens)
+        @text = text
         @tokens = tokens
       end
 
@@ -15,7 +16,7 @@ module Semlogr
         end
       end
 
-      EMPTY = Template.new([TextToken::EMPTY])
+      EMPTY = Template.new('', [TextToken::EMPTY])
     end
   end
 end

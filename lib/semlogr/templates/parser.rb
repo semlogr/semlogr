@@ -28,7 +28,7 @@ module Semlogr
           tokens.push(property_token) if property_token
         end
 
-        @template_cache[template] = Template.new(tokens)
+        @template_cache[template] = Template.new(template, tokens)
       end
 
       def self.parse_text_token(template, start)

@@ -11,7 +11,7 @@ module Semlogr
       subject(:log_event) { LogEvent.new(severity, template, properties) }
 
       describe '.create' do
-        let(:parsed_template) { Templates::Template.new([]) }
+        let(:parsed_template) { Templates::Template.new('', []) }
 
         subject(:log_event) { LogEvent.create(severity, template, properties) }
 
