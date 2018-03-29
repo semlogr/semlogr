@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.2.2
+
+* Fix bug introduced by 0.2.1 where the severity was being wrapped in quotes in console output
+
 ### 0.2.1
 
 * Add raw template text to template
