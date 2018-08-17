@@ -11,6 +11,8 @@ module Semlogr
 
     def self.create(severity)
       case severity
+      when LogSeverity
+        severity
       when :debug
         LogSeverity::DEBUG
       when :info

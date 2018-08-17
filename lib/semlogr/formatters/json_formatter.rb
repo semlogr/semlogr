@@ -17,7 +17,6 @@ module Semlogr
         event = {
           timestamp: log_event.timestamp.iso8601(3),
           severity: log_event.severity.to_s,
-          message_template: log_event.template.text,
           message: log_event.to_s
         }
 

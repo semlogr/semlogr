@@ -11,7 +11,7 @@ module Semlogr
       [:fatal?, LogSeverity::FATAL, LogSeverity::INFO, nil]
     ].each do |method, severity, lower_severity, higher_severity|
       describe "##{method}" do
-        let(:logger) { Logger.new(min_severity, nil, nil) }
+        let(:logger) { Logger.new(min_severity, nil) }
 
         subject { logger.send(method) }
 
@@ -47,9 +47,8 @@ module Semlogr
       [:fatal, LogSeverity::FATAL, LogSeverity::INFO, nil]
     ].each do |method, severity, lower_severity, higher_severity|
       describe "##{method}" do
-        let(:enricher) { spy }
         let(:sink) { spy }
-        let(:logger) { Logger.new(min_severity, enricher, sink) }
+        let(:logger) { Logger.new(min_severity, sink) }
         let(:log_event) { spy }
         let(:template) { 'Logging' }
         let(:properties) { { a: 1, b: 2 } }
@@ -66,11 +65,7 @@ module Semlogr
           context "when min_severity is less than #{severity}" do
             let(:min_severity) { lower_severity }
 
-            it 'enriches log event and emits to sink' do
-              expect(enricher).to have_received(:enrich)
-                .with(log_event)
-                .ordered
-
+            it 'emits log_event to sink' do
               expect(sink).to have_received(:emit)
                 .with(log_event)
                 .ordered
@@ -81,11 +76,7 @@ module Semlogr
         context "when min_severity equals #{severity}" do
           let(:min_severity) { severity }
 
-          it 'enriches log event and emits to sink' do
-            expect(enricher).to have_received(:enrich)
-              .with(log_event)
-              .ordered
-
+          it 'emits log event to sink' do
             expect(sink).to have_received(:emit)
               .with(log_event)
               .ordered

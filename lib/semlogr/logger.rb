@@ -1,19 +1,18 @@
-require 'semlogr/logger_configuration'
+require 'semlogr/config/logger_config'
 require 'semlogr/log_severity'
 require 'semlogr/events/log_event'
+require 'semlogr/sinks/enriching'
 require 'semlogr/enrichers/property'
-require 'semlogr/enrichers/aggregate'
 
 module Semlogr
   class Logger
-    def initialize(min_severity, enricher, sink)
+    def initialize(min_severity, sink)
       @min_severity = min_severity
-      @enricher = enricher
       @sink = sink
     end
 
     def self.create
-      config = LoggerConfiguration.new
+      config = Config::LoggerConfig.new
       yield(config)
 
       config.create_logger
@@ -61,13 +60,9 @@ module Semlogr
 
     def with_context(**properties)
       property_enricher = Enrichers::Property.new(properties)
-      enricher = Enrichers::Aggregate.new([@enricher, property_enricher])
+      sink = Sinks::Enriching.new([property_enricher], @sink)
 
-      Logger.new(
-        @min_severity,
-        enricher,
-        @sink
-      )
+      Logger.new(@min_severity, sink)
     end
 
     private
@@ -84,7 +79,6 @@ module Semlogr
       end
 
       log_event = Events::LogEvent.create(severity, template, properties)
-      @enricher.enrich(log_event)
       @sink.emit(log_event)
 
       true

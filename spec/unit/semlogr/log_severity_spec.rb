@@ -6,6 +6,7 @@ module Semlogr
       subject { LogSeverity.create(level) }
 
       [
+        [LogSeverity.create(:debug), LogSeverity::DEBUG],
         [:debug, LogSeverity::DEBUG],
         [:info, LogSeverity::INFO],
         [:warn, LogSeverity::WARN],
