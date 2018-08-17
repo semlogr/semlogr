@@ -10,7 +10,7 @@ module Semlogr
         let(:log_context) { [{ a: 1 }, { b: 2 }] }
 
         before do
-          allow(Context::LogContext).to receive(:current)
+          allow(Semlogr::LogContext).to receive(:current)
             .and_return(log_context)
         end
 
