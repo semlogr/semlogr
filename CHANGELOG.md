@@ -1,5 +1,11 @@
 # Changelog
 
+### 0.2.3
+
+* Add ability to configure sinks with it's own min severity, filters and enrichers.
+* Add enricher to tag log events with an event type, based on a hash of the template text.
+* Some pipeline cleanup and refactoring.
+
 ### 0.2.2
 
 * Fix bug introduced by 0.2.1 where the severity was being wrapped in quotes in console output
