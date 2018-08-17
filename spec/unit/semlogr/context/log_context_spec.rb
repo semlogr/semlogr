@@ -1,4 +1,4 @@
-require 'semlogr/context/log_context'
+require 'semlogr/log_context'
 
 module Semlogr
   module Context

@@ -7,6 +7,6 @@ Semlogr.logger = Semlogr::Logger.create do |c|
   c.enrich_with :log_context
 end
 
-Semlogr::Context::LogContext.push_property(a: 1) do
+Semlogr::LogContext.push_property(a: 1) do
   Semlogr.info('Customer {id} checked out', id: 1)
 end

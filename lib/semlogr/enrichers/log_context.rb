@@ -1,10 +1,10 @@
-require 'semlogr/context/log_context'
+require 'semlogr/log_context'
 
 module Semlogr
   module Enrichers
     class LogContext
       def enrich(log_event)
-        Context::LogContext.current
+        Semlogr::LogContext.current
           .each do |properties|
             log_event.add_property_if_absent(properties)
           end

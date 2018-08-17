@@ -1,7 +1,7 @@
 require 'semlogr/version'
 require 'semlogr/logger'
 require 'semlogr/null_logger'
-require 'semlogr/context/log_context'
+require 'semlogr/log_context'
 
 # Built-in enrichers
 require 'semlogr/enrichers/event_type'

@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.3.0
+
+* Moved LogContext
+
 ### 0.2.3
 
 * Add ability to configure sinks with it's own min severity, filters and enrichers.
