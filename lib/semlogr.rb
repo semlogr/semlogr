@@ -4,6 +4,7 @@ require 'semlogr/null_logger'
 require 'semlogr/context/log_context'
 
 # Built-in enrichers
+require 'semlogr/enrichers/event_type'
 require 'semlogr/enrichers/host'
 require 'semlogr/enrichers/log_context'
 require 'semlogr/enrichers/property'

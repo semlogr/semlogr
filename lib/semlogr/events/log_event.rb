@@ -1,3 +1,4 @@
+require 'digest/xxhash'
 require 'semlogr/templates/parser'
 
 module Semlogr
@@ -37,6 +38,10 @@ module Semlogr
 
       def render(output)
         @template.render(output, @properties)
+      end
+
+      def type
+        @type ||= Digest::XXH32.hexdigest(@template.text)
       end
 
       def to_s
