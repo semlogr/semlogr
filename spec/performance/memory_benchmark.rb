@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'benchmark/memory'
 require 'semlogr'
 require 'securerandom'

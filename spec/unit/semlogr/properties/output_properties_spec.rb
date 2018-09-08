@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/properties/output_properties'
 
 module Semlogr

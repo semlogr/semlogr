@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ostruct'
 require 'semlogr/formatters/property_value_formatter'
 
@@ -6,7 +8,7 @@ module Semlogr
     describe PropertyValueFormatter do
       describe '.format' do
         subject do
-          output = ''
+          output = +''
           PropertyValueFormatter.format(output, value)
           output
         end

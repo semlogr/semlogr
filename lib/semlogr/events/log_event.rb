@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'digest/xxhash'
 require 'semlogr/templates/parser'
 
@@ -45,7 +47,7 @@ module Semlogr
       end
 
       def to_s
-        output = ''
+        output = +''
 
         render(output)
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/templates/property_token'
 require 'semlogr/formatters/property_value_formatter'
 
@@ -10,7 +12,7 @@ module Semlogr
         let(:token) { PropertyToken.new(token_text, property_name) }
 
         subject do
-          output = ''
+          output = +''
           token.render(output, properties)
           output
         end

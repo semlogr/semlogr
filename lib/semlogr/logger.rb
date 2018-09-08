@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/config/logger_config'
 require 'semlogr/log_severity'
 require 'semlogr/events/log_event'

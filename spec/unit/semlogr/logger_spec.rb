@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/logger'
 require 'semlogr/events/log_event'
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/formatters/text_formatter'
 
 module Semlogr

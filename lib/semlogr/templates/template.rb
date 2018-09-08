@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/templates/text_token'
 
 module Semlogr

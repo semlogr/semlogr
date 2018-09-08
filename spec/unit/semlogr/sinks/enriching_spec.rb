@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/sinks/enriching'
 
 module Semlogr

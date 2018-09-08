@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'semlogr/sinks/console'
 require 'semlogr/properties/output_properties'
 
 module Semlogr
   module Sinks
     class ColoredConsole
-      DEFAULT_TEMPLATE = "[{timestamp}] {severity}: {message}\n{error}".freeze
+      DEFAULT_TEMPLATE = "[{timestamp}] {severity}: {message}\n{error}"
 
       LOG_SEVERITY_COLORS = {
         LogSeverity::DEBUG => :white,
@@ -26,7 +28,7 @@ module Semlogr
       end
 
       def emit(log_event)
-        output = ''
+        output = +''
         output_properties = Properties::OutputProperties.create(log_event)
 
         @template.tokens.each do |token|

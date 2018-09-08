@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/component_registry'
 
 module Semlogr

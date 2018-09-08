@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/enrichers/host'
 
 module Semlogr

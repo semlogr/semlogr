@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/component_registry'
 require 'semlogr/sinks/enriching'
 require 'semlogr/sinks/filtering'

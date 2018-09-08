@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/enrichers/log_context'
 require 'semlogr/log_context'
 

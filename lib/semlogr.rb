@@ -1,7 +1,10 @@
-require 'semlogr/version'
+# frozen_string_literal: true
+
 require 'semlogr/logger'
-require 'semlogr/null_logger'
 require 'semlogr/log_context'
+require 'semlogr/null_logger'
+require 'semlogr/self_logger'
+require 'semlogr/version'
 
 # Built-in enrichers
 require 'semlogr/enrichers/event_type'

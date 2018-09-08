@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/formatters/property_value_formatter'
 
 module Semlogr

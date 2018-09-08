@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/events/log_event'
 require 'semlogr/templates/parser'
 
@@ -6,13 +8,12 @@ module Semlogr
     describe LogEvent do
       let(:severity) { 'INFO' }
       let(:template) { 'template' }
+      let(:parsed_template) { Templates::Template.new('', []) }
       let(:properties) { { a: 1, b: 2 } }
 
-      subject(:log_event) { LogEvent.new(severity, template, properties) }
+      subject(:log_event) { LogEvent.new(severity, parsed_template, properties) }
 
       describe '.create' do
-        let(:parsed_template) { Templates::Template.new('', []) }
-
         subject(:log_event) { LogEvent.create(severity, template, properties) }
 
         before do
@@ -92,10 +93,10 @@ module Semlogr
       end
 
       describe '#render' do
-        let(:output) { '' }
+        let(:output) { +'' }
 
         before do
-          allow(template).to receive(:render)
+          allow(parsed_template).to receive(:render)
             .with(output, properties)
             .and_return('rendered')
         end

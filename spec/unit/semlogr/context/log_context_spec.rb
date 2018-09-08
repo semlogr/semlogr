@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/log_context'
 
 module Semlogr

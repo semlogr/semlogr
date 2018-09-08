@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/templates/parser'
 require 'semlogr/properties/output_properties'
 require 'semlogr/templates/property_token'
@@ -5,14 +7,14 @@ require 'semlogr/templates/property_token'
 module Semlogr
   module Formatters
     class TextFormatter
-      DEFAULT_TEMPLATE = "[{timestamp}] {severity}: {message}\n{error}".freeze
+      DEFAULT_TEMPLATE = "[{timestamp}] {severity}: {message}\n{error}"
 
       def initialize(template: DEFAULT_TEMPLATE)
         @template = Templates::Parser.parse(template)
       end
 
       def format(log_event)
-        output = ''
+        output = +''
         output_properties = Properties::OutputProperties.create(log_event)
 
         @template.tokens.each do |token|

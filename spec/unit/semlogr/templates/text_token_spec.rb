@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/templates/text_token'
 
 module Semlogr
@@ -8,7 +10,7 @@ module Semlogr
         let(:token) { TextToken.new(token_text) }
 
         subject do
-          output = ''
+          output = +''
           token.render(output, nil)
           output
         end

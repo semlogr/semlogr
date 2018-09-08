@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/templates/template'
 require 'semlogr/templates/text_token'
 require 'semlogr/templates/property_token'
@@ -8,8 +10,8 @@ module Semlogr
     class Parser
       @template_cache = TemplateCache.new(1000)
 
-      PROPERTY_TOKEN_START = '{'.freeze
-      PROPERTY_TOKEN_END = '}'.freeze
+      PROPERTY_TOKEN_START = '{'
+      PROPERTY_TOKEN_END = '}'
 
       def self.parse(template)
         return Template::EMPTY unless template && !template.empty?
