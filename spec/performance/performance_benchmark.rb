@@ -29,6 +29,10 @@ Benchmark.ips do |x|
     logger.info('This is a log {property}', property: 1234)
   end
 
+  x.report('log with 1 formatted property') do
+    logger.info('This is a log {property:.2f}', property: 1234)
+  end
+
   x.report('log unique template with 5 properties') do
     prefix = SecureRandom.hex(16)
 

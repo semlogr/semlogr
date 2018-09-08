@@ -3,26 +3,25 @@
 module Semlogr
   module Formatters
     class PropertyValueFormatter
-      QUOTE = '"'
+      NO_VALUE = '(nil)'
+      NEW_LINE = "\n"
 
-      def self.format(output, value)
+      def self.format(value)
         case value
         when nil
-          output << '(nil)'
+          NO_VALUE
         when String
-          output << QUOTE
-          output << value
-          output << QUOTE
+          "\"#{value}\""
         when StandardError
-          output << "#{value.class}: #{value.message}"
+          formatted_error = "#{value.class}: #{value.message}"
 
           if value.backtrace&.any?
-            output << "\n\s\s#{value.backtrace.join("\n\s\s")}"
+            formatted_error << "\n\s\s#{value.backtrace.join("\n\s\s")}"
           end
 
-          output << "\n"
+          formatted_error << NEW_LINE
         else
-          output << value.to_s
+          value.to_s
         end
       end
     end

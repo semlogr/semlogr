@@ -125,6 +125,23 @@ module Semlogr
             )
           end
         end
+
+        context 'when template has a format string' do
+          let(:template) { 'testing {value:.2f}' }
+
+          it 'sets text to the template' do
+            expect(subject.text).to eq(template)
+          end
+
+          it 'contants property token with format' do
+            expect(subject.tokens).to match_array(
+              [
+                TextToken.new('testing '),
+                PropertyToken.new('{value:.2f}', :value, '.2f')
+              ]
+            )
+          end
+        end
       end
     end
   end

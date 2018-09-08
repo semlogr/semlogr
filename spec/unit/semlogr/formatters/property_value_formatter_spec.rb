@@ -8,9 +8,7 @@ module Semlogr
     describe PropertyValueFormatter do
       describe '.format' do
         subject do
-          output = +''
-          PropertyValueFormatter.format(output, value)
-          output
+          PropertyValueFormatter.format(value)
         end
 
         context 'when value is nil' do

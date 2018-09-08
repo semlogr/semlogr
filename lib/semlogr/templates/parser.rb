@@ -12,6 +12,7 @@ module Semlogr
 
       PROPERTY_TOKEN_START = '{'
       PROPERTY_TOKEN_END = '}'
+      FILTER_TOKEN_START = ':'
 
       def self.parse(template)
         return Template::EMPTY unless template && !template.empty?
@@ -56,14 +57,25 @@ module Semlogr
 
         token = nil
         pos = start
+        filter_start = nil
 
         while pos < template.size
-          if template[pos] == PROPERTY_TOKEN_END
+          case template[pos]
+          when PROPERTY_TOKEN_END
             raw_text = template[start..pos]
-            property_name = raw_text[1..-2]
-            token = PropertyToken.new(raw_text, property_name.to_sym)
+            filter = nil
 
+            if filter_start.nil?
+              property_name = template[start + 1..pos - 1]
+            else
+              property_name = template[start + 1..filter_start - 1]
+              filter = template[filter_start + 1..pos - 1]
+            end
+
+            token = PropertyToken.new(raw_text, property_name.to_sym, filter)
             return [token, pos + 1]
+          when FILTER_TOKEN_START
+            filter_start ||= pos
           end
 
           pos += 1
