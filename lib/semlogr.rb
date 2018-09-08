@@ -14,6 +14,7 @@ require 'semlogr/enrichers/property'
 require 'semlogr/enrichers/thread'
 
 # Built-in sinks
+require 'semlogr/sinks/batching'
 require 'semlogr/sinks/console'
 require 'semlogr/sinks/colored_console'
 require 'semlogr/sinks/file'
