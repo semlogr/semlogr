@@ -13,7 +13,7 @@ module Semlogr
         when String
           "\"#{value}\""
         when StandardError
-          formatted_error = "#{value.class}: #{value.message}"
+          formatted_error = +"#{value.class}: #{value.message}"
 
           if value.backtrace&.any?
             formatted_error << "\n\s\s#{value.backtrace.join("\n\s\s")}"

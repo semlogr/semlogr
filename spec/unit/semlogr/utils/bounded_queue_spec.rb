@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'semlogr/utils/bounded_queue'
 
 module Semlogr
