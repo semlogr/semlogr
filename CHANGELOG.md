@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.3.2
+
+* Write to log upon failure to emit event batch.
+
 ### 0.3.1
 
 * Added batching sink providing ability to create sinks that reliably emit batches of events.

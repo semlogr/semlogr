@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'semlogr/utils/bounded_queue'
+require 'semlogr/self_logger'
 require 'timeout'
 
 module Semlogr
@@ -49,8 +50,10 @@ module Semlogr
 
         begin
           emit_batch(log_events)
-        rescue StandardError
+        rescue StandardError => e
           flush_attempts += 1
+
+          SelfLogger.error("Failed to emit event batch to #{self.class}, attempts: #{flush_attempts}", e)
 
           if flush_attempts <= MAX_FLUSH_ATTEMPTS
             sleep 2**flush_attempts
