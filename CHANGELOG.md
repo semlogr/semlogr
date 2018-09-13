@@ -1,5 +1,12 @@
 # Changelog
 
+### 0.3.1
+
+* Added batching sink providing ability to create sinks that reliably emit batches of events.
+* Added initial version of property formatting, allowing standard Ruby format strings to be used to format property values.
+* Added self logger to provide internal diagnostic information.
+* Made it so that errors raised by sinks/enrichers/filters will not to crash the entire application. Instead they are swallowed and the error is written to the self log.
+
 ### 0.3.0
 
 * Moved LogContext
