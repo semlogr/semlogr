@@ -16,16 +16,34 @@ module Semlogr
           enriching_sink.emit(log_event)
         end
 
-        it 'enriches log_event' do
-          enrichers.each do |enricher|
-            expect(enricher).to have_received(:enrich)
+        it 'enriches the log event' do
+          expect(enrichers).to all(
+            have_received(:enrich)
               .with(log_event)
-          end
+          )
         end
 
         it 'calls child sink' do
           expect(sink).to have_received(:emit)
             .with(log_event)
+        end
+
+        context 'when enricher throws error' do
+          let(:bad_enricher) { spy }
+
+          before do
+            enrichers << bad_enricher
+
+            allow(bad_enricher).to receive(:enrich)
+              .and_raise('boom')
+          end
+
+          it 'swallows error and calls remaining enrichers' do
+            expect(enrichers - [bad_enricher]).to all(
+              have_received(:enrich)
+                .with(log_event)
+            )
+          end
         end
       end
     end

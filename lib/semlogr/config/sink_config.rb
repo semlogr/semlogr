@@ -23,7 +23,7 @@ module Semlogr
       end
 
       def enrich_with(enricher, *params)
-        enricher = ComponentRegistry.resolve(:enricher, enricher, *params) if enricher.is_a?(Symbol)
+        enricher = resolve_enricher(enricher, params)
         @enrichers << enricher
       end
 
@@ -40,6 +40,13 @@ module Semlogr
         sink = Sinks::Filtering.new(@filters, sink) if @filters.any?
         sink = Sinks::Enriching.new(@enrichers, sink) if @enrichers.any?
         sink
+      end
+
+      private
+
+      def resolve_enricher(enricher, params)
+        return enricher unless enricher.is_a?(Symbol)
+        ComponentRegistry.resolve(:enricher, enricher, *params)
       end
     end
   end

@@ -22,7 +22,7 @@ module Semlogr
           end
         end
 
-        context 'when log even is filtered' do
+        context 'when log event is filtered' do
           let(:filters) do
             [
               ->(_) { false },
@@ -35,6 +35,17 @@ module Semlogr
 
             expect(sink).to_not have_received(:emit)
               .with(log_event)
+          end
+        end
+
+        context 'when filter throws error' do
+          let(:filters) do
+            [->(_) { raise StandardError, 'boom' }]
+          end
+
+          it 'swallows filter error' do
+            expect { filtering_sink.emit(log_event) }
+              .not_to raise_error
           end
         end
       end

@@ -10,13 +10,15 @@ module Semlogr
       let(:now) { Time.now }
 
       before do
-        SelfLogger.logger = log
-
         Timecop.freeze(now)
+
+        SelfLogger.logger = log
       end
 
       after do
         Timecop.return
+
+        SelfLogger.logger = nil
       end
 
       %i[debug info warn error fatal].each do |severity|

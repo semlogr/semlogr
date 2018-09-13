@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'semlogr/formatters/property_value_formatter'
+require 'semlogr/self_logger'
 
 module Semlogr
   module Templates
@@ -20,7 +21,9 @@ module Semlogr
           else
             raw_text
           end
-      rescue StandardError
+      rescue StandardError => e
+        SelfLogger.error("Failed to render property token: #{property_name}", e)
+
         output << raw_text
       end
 

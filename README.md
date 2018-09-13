@@ -23,7 +23,7 @@ then:
 Create an instance of the logger configuring one or more sinks. 
 
 ```ruby
-require "semlogr"
+require 'semlogr'
 
 Semlogr.logger = Semlogr.create_logger do |c|
   c.log_at :info
