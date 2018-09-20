@@ -12,7 +12,7 @@ module Semlogr
 
       PROPERTY_TOKEN_START = '{'
       PROPERTY_TOKEN_END = '}'
-      FILTER_TOKEN_START = ':'
+      FORMAT_TOKEN_START = ':'
 
       def self.parse(template)
         return Template::EMPTY unless template && !template.empty?
@@ -74,7 +74,7 @@ module Semlogr
 
             token = PropertyToken.new(raw_text, property_name.to_sym, format)
             return [token, pos + 1]
-          when FILTER_TOKEN_START
+          when FORMAT_TOKEN_START
             format_start ||= pos
           end
 
