@@ -57,25 +57,25 @@ module Semlogr
 
         token = nil
         pos = start
-        filter_start = nil
+        format_start = nil
 
         while pos < template.size
           case template[pos]
           when PROPERTY_TOKEN_END
             raw_text = template[start..pos]
-            filter = nil
+            format = nil
 
-            if filter_start.nil?
+            if format_start.nil?
               property_name = template[start + 1..pos - 1]
             else
-              property_name = template[start + 1..filter_start - 1]
-              filter = template[filter_start + 1..pos - 1]
+              property_name = template[start + 1..format_start - 1]
+              format = template[format_start + 1..pos - 1]
             end
 
-            token = PropertyToken.new(raw_text, property_name.to_sym, filter)
+            token = PropertyToken.new(raw_text, property_name.to_sym, format)
             return [token, pos + 1]
           when FILTER_TOKEN_START
-            filter_start ||= pos
+            format_start ||= pos
           end
 
           pos += 1
