@@ -8,3 +8,7 @@
 /spec/reports/
 /tmp/
 /.tags*
+
+# Codeship
+codeship-env
+codeship.aes
