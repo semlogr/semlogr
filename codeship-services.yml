@@ -3,3 +3,4 @@ build:
     dockerfile: build/Dockerfile
   volumes:
     - ./coverage:/build/coverage
+  encrypted_env_file: codeship-env.encrypted
