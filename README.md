@@ -1,4 +1,6 @@
 ![Codeship Status for semlogr/semlogr](https://codeship.com/projects/b5709d40-3693-0134-2dce-36dc468776c7/status?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/289a454f148f5706116f/maintainability)](https://codeclimate.com/github/semlogr/semlogr/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/289a454f148f5706116f/test_coverage)](https://codeclimate.com/github/semlogr/semlogr/test_coverage)
 
 # Semlogr
 
