@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby:2.3
 LABEL maintainer="stefan.sedich@gmail.com"
 
 # Switch to directory for build
