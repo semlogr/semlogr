@@ -1,0 +1,3 @@
+- name: build
+  service: build
+  command: bash -c "bundle install && bundle exec rake"

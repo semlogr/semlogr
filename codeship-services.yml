@@ -1,0 +1,5 @@
+build:
+  image: ruby:2.5
+  working_dir: /app
+  volumes:
+    - ./:/app
