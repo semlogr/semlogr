@@ -43,7 +43,7 @@ module Semlogr
 
         context 'when property has a format string' do
           let(:properties) { { a: 1 } }
-          let(:format) { '.2f' }
+          let(:format) { '%.2f' }
 
           it 'formats property using format string' do
             is_expected.to eq('1.00')
@@ -52,7 +52,7 @@ module Semlogr
 
         context 'when formatting throws' do
           let(:properties) { { a: 1 } }
-          let(:format) { '..' }
+          let(:format) { '%..' }
 
           it 'renders property raw text' do
             is_expected.to eq(token_text)
@@ -64,14 +64,14 @@ module Semlogr
         subject { token1 == token2 }
 
         context 'when tokens have same text, property name and template' do
-          let(:token1) { PropertyToken.new('a', :a, '.2f') }
-          let(:token2) { PropertyToken.new('a', :a, '.2f') }
+          let(:token1) { PropertyToken.new('a', :a, '%.2f') }
+          let(:token2) { PropertyToken.new('a', :a, '%.2f') }
 
           it { is_expected.to eq(true) }
         end
 
         context 'when tokens do not have same text, property name and token' do
-          let(:token1) { PropertyToken.new('a', :a, '.2f') }
+          let(:token1) { PropertyToken.new('a', :a, '%.2f') }
           let(:token2) { PropertyToken.new('b', :b) }
 
           it { is_expected.to eq(false) }

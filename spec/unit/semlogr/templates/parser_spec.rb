@@ -18,7 +18,7 @@ module Semlogr
           it 'contains an empty token' do
             expect(subject.tokens).to match_array(
               [
-                TextToken::EMPTY
+                TextToken.empty
               ]
             )
           end
@@ -34,7 +34,7 @@ module Semlogr
           it 'contains an empty token' do
             expect(subject.tokens).to match_array(
               [
-                TextToken::EMPTY
+                TextToken.empty
               ]
             )
           end
@@ -137,7 +137,7 @@ module Semlogr
             expect(subject.tokens).to match_array(
               [
                 TextToken.new('testing '),
-                PropertyToken.new('{value:.2f}', :value, '.2f')
+                PropertyToken.new('{value:.2f}', :value, '%.2f')
               ]
             )
           end

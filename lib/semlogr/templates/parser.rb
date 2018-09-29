@@ -15,7 +15,7 @@ module Semlogr
       FORMAT_TOKEN_START = ':'
 
       def self.parse(template)
-        return Template::EMPTY unless template && !template.empty?
+        return Template.empty unless template && !template.empty?
 
         cached_template = @template_cache[template]
         return cached_template if cached_template
@@ -72,7 +72,8 @@ module Semlogr
               format = template[format_start + 1..pos - 1]
             end
 
-            token = PropertyToken.new(raw_text, property_name.to_sym, format)
+            format_string = "%#{format}" if format
+            token = PropertyToken.new(raw_text, property_name.to_sym, format_string)
             return [token, pos + 1]
           when FORMAT_TOKEN_START
             format_start ||= pos

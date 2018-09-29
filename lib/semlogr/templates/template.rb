@@ -4,21 +4,16 @@ require 'semlogr/templates/text_token'
 
 module Semlogr
   module Templates
-    class Template
-      attr_accessor :text, :tokens
-
-      def initialize(text, tokens)
-        @text = text
-        @tokens = tokens
-      end
-
+    Template = Struct.new(:text, :tokens) do
       def render(output, properties)
-        @tokens.each do |token|
+        tokens.each do |token|
           token.render(output, properties)
         end
       end
 
-      EMPTY = Template.new('', [TextToken::EMPTY])
+      def self.empty
+        Template.new('', [TextToken.empty])
+      end
     end
   end
 end
