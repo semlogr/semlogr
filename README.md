@@ -4,7 +4,7 @@
 
 # Semlogr
 
-Semlogr is a semantic logger for Ruby inspired and primarily ported from the awesome semantic logger for .NET [Serilog](http://serilog.net/).
+Semlogr is a semantic logger for Ruby inspired by the awesome semantic logger for .NET [Serilog](http://serilog.net/).
 
 ## Installation
 
