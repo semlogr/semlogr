@@ -1,8 +1,4 @@
 version: "2"
 plugins:
-  flog:
-    enabled: true
-  reek:
-    enabled: true
   rubocop:
     enabled: true
