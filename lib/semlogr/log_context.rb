@@ -2,8 +2,14 @@
 
 module Semlogr
   class LogContext
+    CURRENT_CONTEXT_KEY = :semlogr_log_context
+
     def self.current
-      Thread.current[:semlogr_log_context] ||= []
+      Thread.current[CURRENT_CONTEXT_KEY] ||= []
+    end
+
+    def self.current=(context)
+      Thread.current[CURRENT_CONTEXT_KEY] = context.dup
     end
 
     def self.push_property(**properties)

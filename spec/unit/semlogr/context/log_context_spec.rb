@@ -44,6 +44,18 @@ module Semlogr
         end
       end
 
+      describe '.current=' do
+        let(:context) { [{ a: 1 }] }
+
+        before { LogContext.current = context }
+        after { LogContext.current = [] }
+
+        it 'sets the current context duplicating context' do
+          expect(LogContext.current).to eq(context)
+          expect(LogContext.current).to_not be(context)
+        end
+      end
+
       describe '.push_property' do
         context 'when pushing a single property' do
           it 'contains the property only during block execution' do
