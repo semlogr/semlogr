@@ -72,8 +72,7 @@ module Semlogr
               format = template[format_start + 1..pos - 1]
             end
 
-            format_string = "%#{format}" if format
-            token = PropertyToken.new(raw_text, property_name.to_sym, format_string)
+            token = PropertyToken.new(raw_text, property_name.to_sym, format)
             return [token, pos + 1]
           when FORMAT_TOKEN_START
             format_start ||= pos

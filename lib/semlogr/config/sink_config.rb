@@ -46,6 +46,7 @@ module Semlogr
 
       def resolve_enricher(enricher, params)
         return enricher unless enricher.is_a?(Symbol)
+
         ComponentRegistry.resolve(:enricher, enricher, *params)
       end
     end

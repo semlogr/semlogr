@@ -2,10 +2,11 @@
 
 require 'semlogr/formatters/property_value_formatter'
 require 'semlogr/self_logger'
+require 'date'
 
 module Semlogr
   module Templates
-    PropertyToken = Struct.new(:raw_text, :property_name, :format_string) do
+    PropertyToken = Struct.new(:raw_text, :property_name, :format) do
       def render(output, properties)
         output <<
           if properties.key?(property_name)
@@ -22,10 +23,13 @@ module Semlogr
       private
 
       def format_property_value(property_value)
-        if format_string
-          format(format_string, property_value)
+        return Formatters::PropertyValueFormatter.format(property_value) unless format
+
+        case property_value
+        when DateTime, Date, Time
+          property_value.strftime(format)
         else
-          Formatters::PropertyValueFormatter.format(property_value)
+          Kernel.format("%#{format}", property_value)
         end
       end
     end

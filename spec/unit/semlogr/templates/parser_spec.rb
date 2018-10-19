@@ -137,7 +137,7 @@ module Semlogr
             expect(subject.tokens).to match_array(
               [
                 TextToken.new('testing '),
-                PropertyToken.new('{value:.2f}', :value, '%.2f')
+                PropertyToken.new('{value:.2f}', :value, '.2f')
               ]
             )
           end
