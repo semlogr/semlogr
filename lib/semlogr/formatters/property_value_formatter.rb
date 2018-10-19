@@ -3,13 +3,10 @@
 module Semlogr
   module Formatters
     class PropertyValueFormatter
-      NO_VALUE = '(nil)'
-      NEW_LINE = "\n"
-
       def self.format(value)
         case value
         when nil
-          NO_VALUE
+          '(nil)'
         when String
           "\"#{value}\""
         when StandardError
@@ -19,7 +16,7 @@ module Semlogr
             formatted_error << "\n\s\s#{value.backtrace.join("\n\s\s")}"
           end
 
-          formatted_error << NEW_LINE
+          formatted_error << "\n"
         else
           value.to_s
         end

@@ -23,6 +23,7 @@ module Semlogr
       private
 
       def format_property_value(property_value)
+        return '(nil)' unless property_value
         return Formatters::PropertyValueFormatter.format(property_value) unless format
 
         case property_value

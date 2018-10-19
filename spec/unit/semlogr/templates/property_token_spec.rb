@@ -26,6 +26,14 @@ module Semlogr
           end
         end
 
+        context 'when property value is nil' do
+          let(:properties) { { a: nil } }
+
+          it 'returns (nil)' do
+            is_expected.to eq('(nil)')
+          end
+        end
+
         context 'when property exists in properties' do
           let(:properties) { { a: 123 } }
           let(:formatted_value) { '123' }
