@@ -23,15 +23,7 @@ module Semlogr
       private
 
       def format_property_value(property_value)
-        return '(nil)' unless property_value
-        return Formatters::PropertyValueFormatter.format(property_value) unless format
-
-        case property_value
-        when DateTime, Date, Time
-          property_value.strftime(format)
-        else
-          Kernel.format("%#{format}", property_value)
-        end
+        Formatters::PropertyValueFormatter.format(property_value, format)
       end
     end
   end

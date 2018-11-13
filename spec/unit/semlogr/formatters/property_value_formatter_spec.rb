@@ -7,8 +7,10 @@ module Semlogr
   module Formatters
     describe PropertyValueFormatter do
       describe '.format' do
+        let(:format) { nil }
+
         subject do
-          PropertyValueFormatter.format(value)
+          PropertyValueFormatter.format(value, format)
         end
 
         context 'when value is nil' do
@@ -24,6 +26,30 @@ module Semlogr
 
           it 'returns quoted string' do
             is_expected.to eq('"foo"')
+          end
+        end
+
+        context 'when format string specified' do
+          let(:value) { 1 }
+          let(:format) { '.2f' }
+
+          it 'formats property using format string' do
+            is_expected.to eq('1.00')
+          end
+        end
+
+        [
+          { value: Date.today, format: '%m/%d/%y' },
+          { value: Time.now, format: '%m/%d/%Y' },
+          { value: DateTime.now, format: '%m/%d/%Y' }
+        ].each do |t|
+          context "when value is #{t[:value].class} with format string specified" do
+            let(:value) { t[:value] }
+            let(:format) { t[:format] }
+
+            it "formats #{t[:value].class} using format string" do
+              is_expected.to eq(value.strftime(t[:format]))
+            end
           end
         end
 

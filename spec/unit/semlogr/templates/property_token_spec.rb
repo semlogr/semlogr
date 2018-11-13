@@ -26,21 +26,14 @@ module Semlogr
           end
         end
 
-        context 'when property value is nil' do
-          let(:properties) { { a: nil } }
-
-          it 'returns (nil)' do
-            is_expected.to eq('(nil)')
-          end
-        end
-
         context 'when property exists in properties' do
           let(:properties) { { a: 123 } }
+          let(:format) { '.2f' }
           let(:formatted_value) { '123' }
 
           before do
             allow(Formatters::PropertyValueFormatter).to receive(:format)
-              .with(properties[:a])
+              .with(properties[:a], format)
               .and_return(formatted_value)
           end
 
@@ -49,33 +42,15 @@ module Semlogr
           end
         end
 
-        context 'when property has a format string' do
-          let(:properties) { { a: 1 } }
-          let(:format) { '.2f' }
-
-          it 'formats property using format string' do
-            is_expected.to eq('1.00')
-          end
-        end
-
-        [
-          { value: Date.today, format: '%m/%d/%y' },
-          { value: Time.now, format: '%m/%d/%Y' },
-          { value: DateTime.now, format: '%m/%d/%Y' }
-        ].each do |t|
-          context "when property has a format string and value is #{t[:value].class}" do
-            let(:properties) { { a: t[:value] } }
-            let(:format) { t[:format] }
-
-            it "formats #{t[:value].class} using format string" do
-              is_expected.to eq(properties[:a].strftime(t[:format]))
-            end
-          end
-        end
-
         context 'when formatting throws' do
           let(:properties) { { a: 1 } }
           let(:format) { '..' }
+
+          before do
+            allow(Formatters::PropertyValueFormatter).to receive(:format)
+              .with(properties[:a], format)
+              .and_raise('boom')
+          end
 
           it 'renders property raw text' do
             is_expected.to eq(token_text)
