@@ -10,7 +10,9 @@ module Semlogr
       def render(output, properties)
         output <<
           if properties.key?(property_name)
-            Formatters::PropertyValueFormatter.format(properties[property_name], format)
+            property_value = properties[property_name]
+
+            Formatters::PropertyValueFormatter.format(property_value, format)
           else
             raw_text
           end
