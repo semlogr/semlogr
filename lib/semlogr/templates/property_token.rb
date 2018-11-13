@@ -10,7 +10,7 @@ module Semlogr
       def render(output, properties)
         output <<
           if properties.key?(property_name)
-            format_property_value(properties[property_name])
+            Formatters::PropertyValueFormatter.format(properties[property_name], format)
           else
             raw_text
           end
@@ -18,12 +18,6 @@ module Semlogr
         SelfLogger.error("Failed to render property token: #{property_name}", e)
 
         output << raw_text
-      end
-
-      private
-
-      def format_property_value(property_value)
-        Formatters::PropertyValueFormatter.format(property_value, format)
       end
     end
   end
